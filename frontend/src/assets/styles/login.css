@@ -1,0 +1,122 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: auto;
+  background-color: #f5f5f5; /* Fondo gris claro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%; /* Asegurarse de que ocupe todo el ancho */
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 1000px;
+  height: auto;
+}
+
+.login-form {
+  flex: 1;
+  margin-right: 2rem;
+  text-align: left; /* Alineación del texto a la izquierda */
+}
+
+.login-form h2 {
+  margin-bottom: 1rem;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.login-form p {
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-form .remember-me {
+  display: flex;
+  align-items: center; /* Alinear los elementos horizontalmente */
+  margin-bottom: 1rem;
+}
+
+.login-form .remember-me input {
+  margin-right: 0.5rem; /* Espacio entre el checkbox y el texto */
+}
+
+.login-form .remember-me label {
+  margin-right: 13rem; /* Espacio entre el checkbox y el texto */
+  font-weight: normal; /* Ajustar el peso de la fuente si es necesario */
+}
+
+.login-form .remember-me a {
+  margin-left: 2rem; /* Añadir más espacio entre "Recordarme" y "Olvide la contraseña" */
+  white-space: nowrap;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #ffcc00;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-form button:hover {
+  background-color: #ffb300;
+}
+
+.login-form .error {
+  color: red;
+  margin-top: 1rem;
+}
+
+.login-form a {
+  color: #00aaff;
+  text-decoration: none;
+}
+
+.login-form a:hover {
+  text-decoration: underline;
+}
+
+.login-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image img {
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 1rem; /* Centrar el logo y añadir margen inferior */
+  max-width: 150px; /* Ajustar el tamaño del logo si es necesario */
+}
