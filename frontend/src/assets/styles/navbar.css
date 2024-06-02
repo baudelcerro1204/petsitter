@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f8f8;
+  border-bottom: 2px solid #007bff;
+}
+
+.logo {
+  display: flex;
+  margin-left: 0; /* Already set, this ensures it stays at 0 */
+}
+
+.logo-img {
+  width: 100%;  /* Adjust size as needed */
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  margin-left: 25rem; /* Ensure nav items are pushed to the right */
+}
+
+.nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-size: 1em;
+}
+
+.nav a:hover {
+  color: #007bff;
+}
+
+.login-button {
+  background-color: #0056b3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #004494;
+}

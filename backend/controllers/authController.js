@@ -7,21 +7,17 @@ const authController = {
     const { firstName, lastName, email, password, phoneNumber, address, petType } = req.body;
 
     try {
-      // Validar datos
       if (!firstName || !lastName || !email || !password || !phoneNumber || !address || !petType) {
         return res.status(400).send('Todos los campos son obligatorios');
       }
 
-      // Verificar si el usuario ya existe
       const existingUser = await User.findOne({ where: { email } });
       if (existingUser) {
         return res.status(400).send('El usuario ya existe');
       }
 
-      // Encriptar la contraseña
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Crear nuevo usuario
       const user = await User.create({
         firstName,
         lastName,
@@ -43,24 +39,20 @@ const authController = {
     const { email, password } = req.body;
 
     try {
-      // Validar datos
       if (!email || !password) {
         return res.status(400).send('Todos los campos son obligatorios');
       }
 
-      // Buscar usuario por email
       const user = await User.findOne({ where: { email } });
       if (!user) {
         return res.status(400).send('Credenciales inválidas');
       }
 
-      // Verificar la contraseña
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
         return res.status(400).send('Credenciales inválidas');
       }
 
-      // Generar token de autenticación
       const token = jwt.sign({ id: user.id, email: user.email }, 'your_jwt_secret', { expiresIn: '1h' });
 
       res.status(200).send({ token });
@@ -70,12 +62,41 @@ const authController = {
     }
   },
 
-  getLoginForm: (req, res) => {
-    res.status(200).send("Formulario de inicio de sesión");
+  forgotPassword: async (req, res) => {
+    const { email } = req.body;
+
+    try {
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        return res.status(400).send('El usuario no existe');
+      }
+
+      const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+      res.status(200).send({ token, message: 'Usuario encontrado. Redirigiendo para cambiar contraseña.' });
+    } catch (error) {
+      console.error('Error al solicitar restablecimiento de contraseña:', error);
+      res.status(500).send('Error al solicitar restablecimiento de contraseña');
+    }
   },
 
-  getRegisterForm: (req, res) => {
-    res.status(200).send("Formulario de registro");
+  resetPassword: async (req, res) => {
+    const { token, newPassword } = req.body;
+
+    try {
+      const decoded = jwt.verify(token, 'your_jwt_secret');
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      await User.update(
+        { password: hashedPassword },
+        { where: { id: decoded.id } }
+      );
+
+      res.status(200).send('Contraseña restablecida exitosamente');
+    } catch (error) {
+      console.error('Error al restablecer la contraseña:', error);
+      res.status(500).send('Error al restablecer la contraseña');
+    }
   }
 };
 
