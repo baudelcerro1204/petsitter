@@ -1,0 +1,39 @@
+.service-comments-container {
+    margin-top: 20px;
+  }
+  
+  .comments-list {
+    margin-bottom: 20px;
+  }
+  
+  .comment-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .add-comment {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-comment textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .add-comment button {
+    padding: 10px;
+    background-color: #ffcc00;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .add-comment button:hover {
+    background-color: #ffb300;
+  }
+  

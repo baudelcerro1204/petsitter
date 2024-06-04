@@ -4,10 +4,10 @@ const { User } = require('../models');
 
 const authController = {
   register: async (req, res) => {
-    const { firstName, lastName, email, password, phoneNumber, address, petType } = req.body;
+    const { firstName, lastName, email, password, phoneNumber, address, role } = req.body;
 
     try {
-      if (!firstName || !lastName || !email || !password || !phoneNumber || !address || !petType) {
+      if (!firstName || !lastName || !email || !password || !phoneNumber || !address || !role) {
         return res.status(400).send('Todos los campos son obligatorios');
       }
 
@@ -25,7 +25,7 @@ const authController = {
         password: hashedPassword,
         phoneNumber,
         address,
-        petType,
+        role, // Guarda el rol del usuario
       });
 
       res.status(201).send(user);
@@ -53,9 +53,9 @@ const authController = {
         return res.status(400).send('Credenciales inválidas');
       }
 
-      const token = jwt.sign({ id: user.id, email: user.email }, 'your_jwt_secret', { expiresIn: '1h' });
+      const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, 'your_jwt_secret', { expiresIn: '1h' });
 
-      res.status(200).send({ token });
+      res.status(200).send({ token, role: user.role }); // Incluye el rol del usuario en la respuesta
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       res.status(500).send('Error al iniciar sesión');

@@ -21,9 +21,15 @@ function Login() {
         password,
       });
       alert('Login exitoso');
-      localStorage.setItem('token', response.data.token);
+      const { token, role } = response.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
       setIsAuthenticated(true);
-      navigate('/'); // Redirect to the landing page
+      if (role === 'proveedor') {
+        navigate('/supplier-panel');
+      } else {
+        navigate('/user-panel');
+      }
     } catch (err) {
       setError('Credenciales inválidas');
     }

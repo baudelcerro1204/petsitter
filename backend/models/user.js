@@ -32,13 +32,30 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    petType: {
-      type: DataTypes.STRING,
-      allowNull: true,
+    role: {
+      type: DataTypes.ENUM,
+      values: ['usuario', 'proveedor'],
+      allowNull: false,
+      defaultValue: 'usuario',
     },
   }, {
     timestamps: true,
   });
+
+  User.associate = function(models) {
+    User.hasMany(models.Pet, {
+      foreignKey: 'userId',
+      as: 'pets',
+    });
+    User.hasMany(models.Service, {
+      foreignKey: 'providerId',
+      as: 'services',
+    });
+    User.hasMany(models.Comment, {
+      foreignKey: 'userId',
+      as: 'comments',
+    });
+  };
 
   return User;
 };

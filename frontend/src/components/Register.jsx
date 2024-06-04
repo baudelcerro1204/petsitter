@@ -29,7 +29,7 @@ function Register() {
         phoneNumber,
         address,
         password,
-        userType,
+        role: userType, // Usar "role" en lugar de "userType"
       });
       alert("Registro exitoso");
     } catch (err) {
@@ -39,7 +39,7 @@ function Register() {
 
   return (
     <div className="register-container">
-        <img src={logoImage} alt="Pet Buddies Logo" className="logo" />
+      <img src={logoImage} alt="Pet Buddies Logo" className="logo" />
       <div className="register-image">
         <img src={registerIllustration} alt="Register Illustration" />
       </div>
@@ -101,8 +101,8 @@ function Register() {
                 onChange={(e) => setUserType(e.target.value)}
               >
                 <option value="">Seleccione tipo de usuario</option>
-                <option value="user">Usuario</option>
-                <option value="admin">Administrador</option>
+                <option value="usuario">Usuario</option>
+                <option value="proveedor">Proveedor</option>
               </select>
             </div>
           </div>

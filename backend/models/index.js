@@ -1,19 +1,83 @@
-const { Sequelize } = require('sequelize');
-const userModel = require('./user');
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.json')[env];
+const db = {};
 
-const sequelize = new Sequelize('postgres://postgres.ntlifxsgujauyqtwtpzm:Influex321!@aws-0-us-east-1.pooler.supabase.com:6543/postgres');
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
 
-const User = userModel(sequelize);
+const UserModel = require('./user');
+const PetModel = require('./pet');
+const ServiceModel = require('./service');
+const CommentModel = require('./comment');
 
-sequelize.sync({ alter: true })  // Usar alter: true para sincronizar las modificaciones
-  .then(() => {
-    console.log('Base de datos y tablas sincronizadas');
-  })
-  .catch((error) => {
-    console.error('Error al sincronizar la base de datos:', error);
+const User = UserModel(sequelize, Sequelize);
+const Pet = PetModel(sequelize, Sequelize);
+const Service = ServiceModel(sequelize, Sequelize);
+const Comment = CommentModel(sequelize, Sequelize);
+
+User.associate = function(models) {
+  User.hasMany(models.Pet, {
+    foreignKey: 'userId',
+    as: 'pets',
   });
-
-module.exports = {
-  User,
-  sequelize,
+  User.hasMany(models.Service, {
+    foreignKey: 'providerId',
+    as: 'services',
+  });
+  User.hasMany(models.Comment, {
+    foreignKey: 'userId',
+    as: 'comments',
+  });
 };
+
+Pet.associate = function(models) {
+  Pet.belongsTo(models.User, {
+    foreignKey: 'userId',
+    as: 'user',
+  });
+};
+
+Service.associate = function(models) {
+  Service.belongsTo(models.User, {
+    foreignKey: 'providerId',
+    as: 'provider',
+  });
+  Service.hasMany(models.Comment, {
+    foreignKey: 'serviceId',
+    as: 'comments',
+  });
+};
+
+Comment.associate = function(models) {
+  Comment.belongsTo(models.User, {
+    foreignKey: 'userId',
+    as: 'user',
+  });
+  Comment.belongsTo(models.Service, {
+    foreignKey: 'serviceId',
+    as: 'service',
+  });
+};
+
+sequelize.sync({ force: false }).then(() => {
+  console.log('Base de datos y tablas creadas');
+}).catch((error) => {
+  console.error('Error al sincronizar con la base de datos:', error);
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+db.User = User;
+db.Pet = Pet;
+db.Service = Service;
+db.Comment = Comment;
+
+module.exports = db;

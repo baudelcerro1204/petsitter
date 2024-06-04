@@ -1,12 +1,13 @@
 const express = require('express');
-const router = express.Router();
-const servicesController = require('../controllers/servicesController');
+const serviceController = require('../controllers/servicesController');
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.get('/walks', servicesController.getWalks);
-router.get('/training', servicesController.getTraining);
-router.get('/care', servicesController.getCare);
-router.get('/walks/:id', servicesController.getWalkById);
-router.get('/training/:id', servicesController.getTrainingById);
-router.get('/care/:id', servicesController.getCareById);
+const router = express.Router();
+
+router.get('/services', serviceController.getAllServices);
+router.get('/services/:id', serviceController.getServiceById);
+router.post('/services', authMiddleware, serviceController.createService);
+router.put('/services/:id', authMiddleware, serviceController.updateService);
+router.delete('/services/:id', authMiddleware, serviceController.deleteService);
 
 module.exports = router;
