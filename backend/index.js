@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const models = require('./models');
 const authRoutes = require('./routes/auth');
-const addPetRoutes = require('./routes/addPet'); // Importa las rutas de agregar mascotas
-const serviceRoutes = require('./routes/services'); // Importa las rutas de servicios
-const commentRoutes = require('./routes/comment'); // Importa las rutas de servicios
+const addPetRoutes = require('./routes/addPet');
+const serviceRoutes = require('./routes/services');
+const commentRoutes = require('./routes/comment');
+const messageRoutes = require('./routes/messages'); // Importa las rutas de mensajes
 
 const app = express();
 const port = 3000;
@@ -24,14 +25,14 @@ app.use('/', authRoutes);
 // Rutas de gestión de mascotas
 app.use('/', addPetRoutes);
 
-//Rutas de servicios
+// Rutas de servicios
 app.use('/', serviceRoutes);
 
 // Rutas de comentarios
-app.use('/comments', commentRoutes);
+app.use('/', commentRoutes);
 
-// Rutas de servicios
-app.use('/services', serviceRoutes);
+// Rutas de mensajes
+app.use('/', messageRoutes); // Añade las rutas de mensajes
 
 models.sequelize.sync().then(() => {
   app.listen(port, () => {

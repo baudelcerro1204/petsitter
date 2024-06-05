@@ -55,6 +55,14 @@ module.exports = (sequelize) => {
       foreignKey: 'userId',
       as: 'comments',
     });
+    User.hasMany(models.Message, {
+      foreignKey: 'senderId',
+      as: 'sentMessages',
+    });
+    User.hasMany(models.Message, {
+      foreignKey: 'receiverId',
+      as: 'receivedMessages',
+    });
   };
 
   return User;

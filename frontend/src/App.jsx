@@ -1,22 +1,18 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext.jsx";
-import Login from "./components/Login.jsx";
-import Register from "./components/Register.jsx";
-import LandingPage from "./components/LandingPage.jsx";
-import ForgotPassword from "./components/ForgotPassword.jsx";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Login from './components/Login';
+import Register from './components/Register';
+import LandingPage from './components/LandingPage';
+import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import PetForm from './components/PetForm';
 import ProtectedRoute from './components/ProtectedRoute';
 import SupplierPanel from './components/SuppliersPanel';
 import UserPanel from './components/UserPanel';
-import ServiceList from './components/ServiceList'; // Importa el componente de lista de servicios
-import ServiceDetails from './components/ServiceDetails'; // Importa el componente de detalles de servicio
+import ServiceList from './components/ServiceList';
+import ServiceDetails from './components/ServiceDetails';
+import SendMessage from './components/SendMessage';
 
 function App() {
   return (
@@ -52,8 +48,9 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/services" element={<ServiceList />} /> {/* Nueva ruta para lista de servicios */}
-          <Route path="/services/:serviceId" element={<ServiceDetails />} /> {/* Nueva ruta para detalles del servicio */}
+          <Route path="/services" element={<ServiceList />} />
+          <Route path="/services/:serviceId" element={<ServiceDetails />} />
+          <Route path="/send-message/:serviceId" element={<SendMessage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
