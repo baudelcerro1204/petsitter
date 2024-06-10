@@ -1,0 +1,84 @@
+.footer{
+    background-color: #F6FAF9;
+    color: black;
+    padding: 50px 10vw;
+    display: flex; /* Añade esto */
+    flex-direction: column; /* Añade esto */
+}
+.footer .mainBox{
+    flex: 1;
+    display: flex; /* Añade esto */
+    flex-direction: column; /* Añade esto */
+}
+.footer .mainBox h4{
+    font-size: 2rem;
+    font-weight: bold;
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: black;
+}
+.footer .mainBox .suscribe {
+    width: 80%;
+    padding: 20px;
+    background-color: #ffffff;
+    color: "#414141";
+    margin: auto;
+    box-shadow: 0 4px 34px rgba(0, 0, 0, 0.05); /* Añade esto */
+}
+.footer .mainBox .suscribe .input{
+    width: calc(100% - 150px);
+    padding: 10px;
+    margin: auto;
+    border: 0px;
+    border-radius: 5px;
+
+}
+.footer .mainBox .suscribe button{
+    padding: 10px 20px;
+    background-color: #124C5F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.footer .secondaryBox{
+    flex: 1;
+    display: flex; /* Añade esto */
+    flex-direction: row; /* Añade esto */
+}
+.footer .secondaryBox .redes{
+    flex: 1;
+    padding:  60px;
+}
+.footer .secondaryBox .redes p{
+    font-size: 1rem;
+    font-weight: bold;
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: 5px;
+    width:max-content;
+    color: black;
+}
+.footer .secondaryBox .redes .icons{
+    display: flex; /* Añade esto */
+    flex-direction: row; /* Añade esto */
+    gap: 20px;
+    width: fit-content;
+    margin: auto;
+}
+.footer .secondaryBox .redes .icons img{
+    width: 30px;
+    height: 30px;
+}
+.footer .secondaryBox .contactMethods{
+    flex: 1;
+    display: flex; /* Añade esto */
+    flex-direction: row; /* Añade esto */
+}
+
+.footer .secondaryBox .contactMethods .contact {
+    flex: 1;
+    gap: 20px;
+    margin: 20px 0;
+}
