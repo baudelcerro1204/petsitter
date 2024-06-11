@@ -28,9 +28,9 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    description: { // Nuevo campo de descripción
+    description: {
       type: DataTypes.TEXT,
-      allowNull: true, // Puedes cambiar a false si la descripción es obligatoria
+      allowNull: true,
     },
     status: {
       type: DataTypes.STRING,
@@ -40,14 +40,19 @@ module.exports = (sequelize) => {
     providerId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Users',
+        model: 'Users', // Cambiado a 'Users' para coincidir con el nombre de la tabla
         key: 'id',
       },
       onDelete: 'CASCADE',
     },
   }, {
+    tableName: 'Services', // Asegura el uso del nombre correcto de la tabla
     timestamps: true,
   });
+
+  Service.associate = function(models) {
+    Service.hasMany(models.Message, { foreignKey: 'serviceId', as: 'messages' });
+  };
 
   return Service;
 };

@@ -22,14 +22,8 @@ app.get('/', (req, res) => {
 // Rutas de autenticación
 app.use('/', authRoutes);
 
-// Rutas de gestión de mascotas
-app.use('/', addPetRoutes);
-
 // Rutas de servicios
 app.use('/', serviceRoutes);
-
-// Rutas de comentarios
-app.use('/', commentRoutes);
 
 // Rutas de mensajes
 app.use('/', messageRoutes); // Añade las rutas de mensajes

@@ -39,6 +39,7 @@ module.exports = (sequelize) => {
       defaultValue: 'usuario',
     },
   }, {
+    tableName: 'Users', // Asegura el uso del nombre correcto de la tabla
     timestamps: true,
   });
 
@@ -55,14 +56,8 @@ module.exports = (sequelize) => {
       foreignKey: 'userId',
       as: 'comments',
     });
-    User.hasMany(models.Message, {
-      foreignKey: 'senderId',
-      as: 'sentMessages',
-    });
-    User.hasMany(models.Message, {
-      foreignKey: 'receiverId',
-      as: 'receivedMessages',
-    });
+    User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
+    User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'receiverId' });
   };
 
   return User;

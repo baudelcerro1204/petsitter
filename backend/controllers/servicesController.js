@@ -66,4 +66,14 @@ const deleteService = async (req, res) => {
   }
 };
 
-module.exports = { getAllServices, getServiceById, createService, updateService, deleteService };
+const getServicesByProvider = async (req, res) => {
+  const providerId = req.user.id;
+  try {
+    const services = await Service.findAll({ where: { providerId } });
+    res.json(services);
+  } catch (error) {
+    res.status(500).send('Error al obtener los servicios del proveedor');
+  }
+};
+
+module.exports = { getAllServices, getServiceById, createService, updateService, deleteService, getServicesByProvider };

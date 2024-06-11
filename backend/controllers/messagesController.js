@@ -2,19 +2,26 @@ const models = require('../models');
 
 const createMessage = async (req, res) => {
   try {
-    const { senderId, receiverId, content } = req.body;
+    const { content, serviceId } = req.body;
+    const senderId = req.user.id;
 
-    // Verifica que todos los campos necesarios están presentes
-    if (!senderId || !receiverId || !content) {
-      console.error('Faltan campos obligatorios:', req.body);
+    if (!senderId || !serviceId || !content) {
+      console.error('Faltan campos obligatorios:', { senderId, serviceId, content });
       return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
 
-    // Crea el mensaje
+    const service = await models.Service.findByPk(serviceId);
+    if (!service) {
+      return res.status(404).json({ error: 'Servicio no encontrado' });
+    }
+
+    const receiverId = service.providerId;
+
     const message = await models.Message.create({
       senderId,
       receiverId,
       content,
+      serviceId
     });
 
     res.status(201).json(message);
@@ -24,15 +31,18 @@ const createMessage = async (req, res) => {
   }
 };
 
-const getMessagesByUserId = async (req, res) => {
+const getMessagesByProviderId = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const providerId = req.user.id;
 
-    // Obtiene los mensajes del usuario
     const messages = await models.Message.findAll({
       where: {
-        senderId: userId,
+        receiverId: providerId,
       },
+      include: [
+        { model: models.User, as: 'sender', attributes: ['firstName', 'lastName'] },
+        { model: models.Service, as: 'service', attributes: ['name'] }
+      ]
     });
 
     res.status(200).json(messages);
@@ -44,5 +54,5 @@ const getMessagesByUserId = async (req, res) => {
 
 module.exports = {
   createMessage,
-  getMessagesByUserId,
+  getMessagesByProviderId,
 };
