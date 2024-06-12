@@ -36,6 +36,31 @@ export function MessageForm() {
     }
   };
 
+  const handleRequestService = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          serviceId: service.id,
+        }),
+      });
+      if (response.ok) {
+        alert("Solicitud de servicio enviada exitosamente");
+        navigate("/services");
+      } else {
+        const errorData = await response.json();
+        alert(`Error al solicitar el servicio: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error("Error al solicitar el servicio:", error);
+      alert(`Error al solicitar el servicio: ${error.message}`);
+    }
+  };
+
   if (!user) {
     return <p>No tienes permiso para ver esta página.</p>;
   }
@@ -54,6 +79,7 @@ export function MessageForm() {
         </div>
         <button type="submit">Enviar Mensaje</button>
       </form>
+      <button onClick={handleRequestService}>Solicitar Servicio</button>
     </div>
   );
 }

@@ -40,18 +40,19 @@ module.exports = (sequelize) => {
     providerId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Users', // Cambiado a 'Users' para coincidir con el nombre de la tabla
+        model: 'Users',
         key: 'id',
       },
       onDelete: 'CASCADE',
     },
   }, {
-    tableName: 'Services', // Asegura el uso del nombre correcto de la tabla
+    tableName: 'Services',
     timestamps: true,
   });
 
   Service.associate = function(models) {
     Service.hasMany(models.Message, { foreignKey: 'serviceId', as: 'messages' });
+    Service.hasMany(models.ServiceRequest, { foreignKey: 'serviceId', as: 'requests' });
   };
 
   return Service;

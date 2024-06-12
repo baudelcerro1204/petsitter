@@ -1,0 +1,33 @@
+.userPanelContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .userPanelContainer h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .requestsList, .commentsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .requestItem, .commentItem {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .requestItem h4, .commentItem h4 {
+    margin-top: 0;
+  }
+  

@@ -1,0 +1,101 @@
+/* ServiceDetails.css */
+
+.serviceDetailsContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .serviceDetailsContainer h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .serviceDetailsContainer p {
+    font-size: 1em;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .serviceDetailsContainer button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .serviceDetailsContainer button:hover {
+    background-color: #0056b3;
+  }
+  
+  .commentsSection {
+    margin-top: 30px;
+  }
+  
+  .commentsSection h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .commentsSection ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .commentsSection ul li {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .commentsSection ul li p {
+    margin: 0;
+    font-size: 1em;
+    color: #333;
+  }
+  
+  .commentsSection ul li small {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.875em;
+    color: #666;
+  }
+  
+  .commentsSection textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    resize: vertical;
+  }
+  
+  .commentsSection button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .commentsSection button:hover {
+    background-color: #218838;
+  }
+  

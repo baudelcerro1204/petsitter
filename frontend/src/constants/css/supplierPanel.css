@@ -1,125 +1,73 @@
-/* Contenedor principal del panel del proveedor */
 .providerPanelContainer {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Título principal */
-  .providerPanelContainer h2,
-  .providerPanelContainer h3 {
-    text-align: center;
-    color: #333;
-  }
-  
-  /* Contenedor de entradas del formulario */
-  .input-container {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-  }
-  
-  /* Etiquetas de entrada */
-  .input-container label {
-    margin-bottom: 5px;
-    color: #555;
-  }
-  
-  /* Entradas del formulario */
-  .input-container input,
-  .input-container select,
-  .input-container textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  /* Botón de envío del formulario */
-  .form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  /* Hover en el botón de envío */
-  .form button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Lista de servicios y mensajes */
-  .servicesList,
-  .messagesList {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-  
-  /* Elemento individual de la lista */
-  .serviceItem,
-  .messageItem {
-    background-color: white;
-    padding: 15px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Título de cada servicio */
-  .serviceItem h3,
-  .messageItem h4 {
-    margin-top: 0;
-    color: #007bff;
-  }
-  
-  /* Párrafos dentro de cada servicio y mensaje */
-  .serviceItem p,
-  .messageItem p {
-    margin: 5px 0;
-    color: #555;
-  }
-  
-  /* Selector de estado del servicio */
-  .serviceItem select {
-    margin-left: 10px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  /* Botón de eliminar servicio */
-  .serviceItem button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-  }
-  
-  /* Hover en el botón de eliminar */
-  .serviceItem button:hover {
-    background-color: #c82333;
-  }
-  
-  /* Mensaje de estado */
-  .providerPanelContainer p {
-    text-align: center;
-    color: #007bff;
-  }
-  
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.providerPanelContainer h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  margin-bottom: 15px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.servicesList, .messagesList, .requestsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.serviceItem, .messageItem, .requestItem {
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.serviceItem h3, .messageItem h4, .requestItem h4 {
+  margin-top: 0;
+}
+
+.requestItem button {
+  margin-right: 10px;
+  background-color: #28a745;
+}
+
+.requestItem button:last-of-type {
+  background-color: #dc3545;
+}

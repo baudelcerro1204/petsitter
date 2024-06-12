@@ -13,10 +13,12 @@ export function ProviderPanel() {
   const [message, setMessage] = useState("");
   const [services, setServices] = useState([]);
   const [receivedMessages, setReceivedMessages] = useState([]);
+  const [serviceRequests, setServiceRequests] = useState([]); // Estado para las solicitudes de servicio
 
   useEffect(() => {
     fetchServices();
     fetchMessages();
+    fetchServiceRequests(); // Obtener solicitudes de servicio
   }, []);
 
   const fetchServices = async () => {
@@ -45,6 +47,60 @@ export function ProviderPanel() {
       setReceivedMessages(data);
     } catch (error) {
       console.error("Error al obtener los mensajes:", error);
+    }
+  };
+
+  const fetchServiceRequests = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/provider/requests", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const data = await response.json();
+      setServiceRequests(data);
+    } catch (error) {
+      console.error("Error al obtener las solicitudes de servicio:", error);
+    }
+  };
+
+  const handleAcceptRequest = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/request/${id}/accept`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      if (response.ok) {
+        fetchServiceRequests();
+      } else {
+        const errorData = await response.json();
+        alert(`Error al aceptar la solicitud: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error("Error al aceptar la solicitud:", error);
+      alert(`Error al aceptar la solicitud: ${error.message}`);
+    }
+  };
+
+  const handleDenyRequest = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/request/${id}/deny`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      if (response.ok) {
+        fetchServiceRequests();
+      } else {
+        const errorData = await response.json();
+        alert(`Error al rechazar la solicitud: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error("Error al rechazar la solicitud:", error);
+      alert(`Error al rechazar la solicitud: ${error.message}`);
     }
   };
 
@@ -220,10 +276,26 @@ export function ProviderPanel() {
       <ul className="messagesList">
         {Array.isArray(receivedMessages) && receivedMessages.map((msg) => (
           <li key={msg.id} className="messageItem">
-          <h4>De: {msg.sender?.firstName} {msg.sender?.lastName}</h4>
-    <p>Servicio: {msg.service.name}</p>
-    <p>Mensaje: {msg.content}</p>
-        </li>
+            <h4>De: {msg.sender?.firstName} {msg.sender?.lastName}</h4>
+            <p>Servicio: {msg.service.name}</p>
+            <p>Mensaje: {msg.content}</p>
+          </li>
+        ))}
+      </ul>
+      <h3>Solicitudes de Servicio</h3>
+      <ul className="requestsList">
+        {serviceRequests.map((request) => (
+          <li key={request.id} className="requestItem">
+            <h4>Servicio: {request.service.name}</h4>
+            <p>Usuario: {request.user.firstName} {request.user.lastName}</p>
+            <p>Estado: {request.status}</p>
+            {request.status === 'pendiente' && (
+              <div>
+                <button onClick={() => handleAcceptRequest(request.id)}>Aceptar</button>
+                <button onClick={() => handleDenyRequest(request.id)}>Rechazar</button>
+              </div>
+            )}
+          </li>
         ))}
       </ul>
     </div>

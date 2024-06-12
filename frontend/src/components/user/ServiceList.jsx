@@ -32,8 +32,8 @@ export function Services() {
   }
 
   const handleContract = (service) => {
-    navigate(`/message/${service.providerId}`, { state: { service } });
-  };
+    navigate(`/service/${service.id}`, { state: { service } });
+  };  
 
   return (
     <div className="servicesContainer">
