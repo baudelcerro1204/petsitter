@@ -13,12 +13,13 @@ export function ProviderPanel() {
   const [message, setMessage] = useState("");
   const [services, setServices] = useState([]);
   const [receivedMessages, setReceivedMessages] = useState([]);
-  const [serviceRequests, setServiceRequests] = useState([]); // Estado para las solicitudes de servicio
+  const [serviceRequests, setServiceRequests] = useState([]);
+  const [petTypes, setPetTypes] = useState([]);
 
   useEffect(() => {
     fetchServices();
     fetchMessages();
-    fetchServiceRequests(); // Obtener solicitudes de servicio
+    fetchServiceRequests();
   }, []);
 
   const fetchServices = async () => {
@@ -104,6 +105,15 @@ export function ProviderPanel() {
     }
   };
 
+  const handlePetTypeChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setPetTypes([...petTypes, value]);
+    } else {
+      setPetTypes(petTypes.filter((type) => type !== value));
+    }
+  };
+
   const createService = async (e) => {
     e.preventDefault();
     try {
@@ -121,6 +131,7 @@ export function ProviderPanel() {
           cost,
           status: "habilitado",
           description,
+          petTypes
         }),
       });
       if (response.ok) {
@@ -244,6 +255,31 @@ export function ProviderPanel() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
+        </div>
+        <div className="input-container">
+          <label>Tipos de mascotas:</label>
+          <div>
+            <label>
+              <input type="checkbox" value="Dog" onChange={handlePetTypeChange} />
+              Perro
+            </label>
+            <label>
+              <input type="checkbox" value="Cat" onChange={handlePetTypeChange} />
+              Gato
+            </label>
+            <label>
+              <input type="checkbox" value="Bird" onChange={handlePetTypeChange} />
+              Pájaro
+            </label>
+            <label>
+              <input type="checkbox" value="Fish" onChange={handlePetTypeChange} />
+              Pez
+            </label>
+            <label>
+              <input type="checkbox" value="Reptile" onChange={handlePetTypeChange} />
+              Reptil
+            </label>
+          </div>
         </div>
         <button type="submit">Crear Servicio</button>
       </form>

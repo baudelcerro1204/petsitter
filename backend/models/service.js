@@ -53,6 +53,7 @@ module.exports = (sequelize) => {
   Service.associate = function(models) {
     Service.hasMany(models.Message, { foreignKey: 'serviceId', as: 'messages' });
     Service.hasMany(models.ServiceRequest, { foreignKey: 'serviceId', as: 'requests' });
+    Service.belongsToMany(models.Pet, { through: models.ServicePet, foreignKey: 'serviceId', as: 'pets' });
   };
 
   return Service;

@@ -1,4 +1,4 @@
-const { Service } = require('../models');
+const { Service, ServicePet } = require('../models');
 
 const getAllServices = async (req, res) => {
   try {
@@ -13,7 +13,12 @@ const getServiceById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const service = await Service.findByPk(id);
+    const service = await Service.findByPk(id, {
+      include: [{
+        model: ServicePet,
+        as: 'servicePets',
+      }],
+    });
     if (!service) {
       return res.status(404).send('Servicio no encontrado');
     }
@@ -24,11 +29,30 @@ const getServiceById = async (req, res) => {
 };
 
 const createService = async (req, res) => {
-  const { name, category, duration, frequency, cost, status, description } = req.body;
+  const { name, category, duration, frequency, cost, status, description, petTypes } = req.body;
   const providerId = req.user.id;
 
   try {
-    const newService = await Service.create({ name, category, duration, frequency, cost, status, providerId, description });
+    const newService = await Service.create({
+      name,
+      category,
+      duration,
+      frequency,
+      cost,
+      status,
+      providerId,
+      description
+    });
+
+    if (petTypes && petTypes.length > 0) {
+      for (const petType of petTypes) {
+        await ServicePet.create({
+          serviceId: newService.id,
+          petType
+        });
+      }
+    }
+
     res.status(201).json(newService);
   } catch (error) {
     res.status(500).send('Error al crear el servicio');
@@ -37,14 +61,34 @@ const createService = async (req, res) => {
 
 const updateService = async (req, res) => {
   const { id } = req.params;
-  const { name, category, duration, frequency, cost, status, description } = req.body;
+  const { name, category, duration, frequency, cost, status, description, petTypes } = req.body;
 
   try {
     const service = await Service.findByPk(id);
     if (!service) {
       return res.status(404).send('Servicio no encontrado');
     }
-    await service.update({ name, category, duration, frequency, cost, status, description });
+
+    await service.update({
+      name,
+      category,
+      duration,
+      frequency,
+      cost,
+      status,
+      description
+    });
+
+    if (petTypes && petTypes.length > 0) {
+      await ServicePet.destroy({ where: { serviceId: id } });
+      for (const petType of petTypes) {
+        await ServicePet.create({
+          serviceId: id,
+          petType
+        });
+      }
+    }
+
     res.json(service);
   } catch (error) {
     res.status(500).send('Error al actualizar el servicio');

@@ -18,7 +18,8 @@ const Pet = require('./pet')(sequelize, Sequelize);
 const Service = require('./service')(sequelize, Sequelize);
 const Comment = require('./comment')(sequelize, Sequelize);
 const Message = require('./message')(sequelize, Sequelize);
-const ServiceRequest = require('./serviceRequest')(sequelize, Sequelize); // Importar el modelo ServiceRequest
+const ServiceRequest = require('./serviceRequest')(sequelize, Sequelize);
+const ServicePet = require('./servicePets')(sequelize, Sequelize); // Importar el modelo ServicePet
 
 const models = {
   User,
@@ -26,7 +27,8 @@ const models = {
   Service,
   Comment,
   Message,
-  ServiceRequest, // Añadir el modelo ServiceRequest
+  ServiceRequest,
+  ServicePet, // Añadir el modelo ServicePet
 };
 
 Object.keys(models).forEach(modelName => {
@@ -48,6 +50,7 @@ db.Pet = Pet;
 db.Service = Service;
 db.Comment = Comment;
 db.Message = Message;
-db.ServiceRequest = ServiceRequest; // Añadir ServiceRequest al objeto db
+db.ServiceRequest = ServiceRequest;
+db.ServicePet = ServicePet; // Añadir ServicePet al objeto db
 
 module.exports = db;

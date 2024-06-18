@@ -32,10 +32,8 @@ module.exports = (sequelize) => {
   });
 
   Pet.associate = function(models) {
-    Pet.belongsTo(models.User, {
-      foreignKey: 'userId',
-      as: 'user',
-    });
+    Pet.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+    Pet.belongsToMany(models.Service, { through: models.ServicePet, foreignKey: 'petType', as: 'services' });
   };
 
   return Pet;

@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const models = require('./models');
 const authRoutes = require('./routes/auth');
-const addPetRoutes = require('./routes/addPet');
+const PetRoutes = require('./routes/addPet');
+const userRoutes = require('./routes/user');
 const serviceRoutes = require('./routes/services');
 const commentRoutes = require('./routes/comment');
 const serviceRequestsRouter = require('./routes/serviceRequest');
@@ -20,18 +21,19 @@ app.get('/', (req, res) => {
   res.send('Bienvenido a Pet Buddies API');
 });
 
-// Rutas de autenticación
 app.use('/', authRoutes);
 
-// Rutas de servicios
 app.use('/', serviceRoutes);
 
 app.use('/', serviceRequestsRouter);
 
-// Rutas de mensajes
 app.use('/', messageRoutes); // Añade las rutas de mensajes
 
 app.use('/', commentRoutes); // Añade las rutas de comentarios
+
+app.use('/', userRoutes);
+
+app.use('/', PetRoutes);
 
 
 models.sequelize.sync().then(() => {
