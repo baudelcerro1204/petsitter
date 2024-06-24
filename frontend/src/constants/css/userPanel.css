@@ -1,0 +1,80 @@
+.userPanelContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.userInfo, .serviceHistory, .commentsSection {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  flex: 1 1 30%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.userInfo h3, .serviceHistory h3, .commentsSection h3 {
+  margin-top: 0;
+}
+
+.userInfo p, .serviceHistory ul, .commentsSection ul {
+  margin: 10px 0;
+}
+
+.userInfo button {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.userInfo button:hover {
+  background-color: #0056b3;
+}
+
+.serviceHistory ul, .commentsSection ul {
+  list-style: none;
+  padding: 0;
+}
+
+.serviceHistory ul li, .commentsSection ul li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.serviceHistory ul li span, .commentsSection ul li div {
+  flex: 1;
+}
+
+a {
+  display: block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

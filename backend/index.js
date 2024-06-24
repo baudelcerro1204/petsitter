@@ -3,10 +3,14 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const models = require('./models');
 const authRoutes = require('./routes/auth');
-const addPetRoutes = require('./routes/addPet');
+const PetRoutes = require('./routes/addPet');
+const userRoutes = require('./routes/user');
 const serviceRoutes = require('./routes/services');
 const commentRoutes = require('./routes/comment');
-const messageRoutes = require('./routes/messages'); // Importa las rutas de mensajes
+const ratingRoutes = require('./routes/rating');
+const imageRoutes = require('./routes/image');
+const serviceRequestsRouter = require('./routes/serviceRequest');
+const messageRoutes = require('./routes/messages'); 
 
 const app = express();
 const port = 3000;
@@ -19,20 +23,24 @@ app.get('/', (req, res) => {
   res.send('Bienvenido a Pet Buddies API');
 });
 
-// Rutas de autenticación
 app.use('/', authRoutes);
 
-// Rutas de gestión de mascotas
-app.use('/', addPetRoutes);
-
-// Rutas de servicios
 app.use('/', serviceRoutes);
 
-// Rutas de comentarios
+app.use('/', serviceRequestsRouter);
+
+app.use('/', messageRoutes); 
+
 app.use('/', commentRoutes);
 
-// Rutas de mensajes
-app.use('/', messageRoutes); // Añade las rutas de mensajes
+app.use('/', userRoutes);
+
+app.use('/', PetRoutes);
+
+app.use('/', imageRoutes);
+
+app.use('/', ratingRoutes);
+
 
 models.sequelize.sync().then(() => {
   app.listen(port, () => {

@@ -1,0 +1,207 @@
+/* Estilos generales */
+.sidebar {
+  height: calc(100vh - 20px);
+  background-color: #ffffff;
+  border-radius: 10px;
+  color: black;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 87px;
+  transition: width 0.3s;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.sidebar.active {
+  width: 300px;
+}
+
+.sidebar .sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+/* Añade esto */
+.mobile-toggle {
+  position: fixed;
+
+  z-index: 1001; /* Asegura que el botón esté sobre el sidebar */
+  left: 80px; /* Ajusta la posición del botón */
+  top: 73px; /* Ajusta la posición del botón */
+  transition: left 0.3s; /* Añade esto */
+}
+
+.mobile-toggle.active {
+  left: 286px; /* Ajusta la posición del botón */
+}
+
+.mobile-toggle .boton {
+  border-radius: 50%;
+  background-color: #e4e3e8;
+  color: #000;
+  border: 1px solid #00aeff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s; /* Suaviza la rotación */
+}
+
+.mobile-toggle.active .boton {
+  transform: rotate(180deg); /* Rota el botón */
+}
+.sidebar .linea {
+  width: calc(100% - 2rem);
+  margin: auto;
+  height: 1px;
+  background-color: #00aeff;
+}
+
+
+
+
+.sidebar .logoChico {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: auto;
+}
+
+.sidebar.active .logoChico {
+  display: none;
+}
+
+.sidebar .logo {
+  display: none;
+}
+
+.sidebar.active .logo {
+  display: block;
+  height: 40px;
+  margin: auto;
+}
+
+.sidebar .contenedor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar .nav-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.sidebar .nav-links a {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: black;
+  margin-bottom: 1rem;
+  transition: background 0.3s;
+}
+
+.sidebar .nav-links a img {
+  width: 24px;
+  height: 24px;
+  fill: black;
+}
+
+.sidebar.active .nav-links a img {
+  margin-right: 1rem;
+}
+
+.sidebar .nav-links a.active {
+  background-color: #00aeff1f;
+  color: #00aeff;
+}
+
+.sidebar .nav-links a.active img {
+  filter: invert(43%) sepia(93%) saturate(1892%) hue-rotate(175deg)
+    brightness(92%) contrast(101%);
+}
+
+.sidebar .sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin-top: auto; /* Coloca el footer al fondo */
+}
+
+.sidebar .sidebar-footer a {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: black;
+  margin-bottom: 1rem;
+}
+
+.sidebar .sidebar-footer a img {
+  width: 24px;
+  height: 24px;
+}
+
+.sidebar.active .sidebar-footer a img {
+  margin-right: 1rem;
+}
+
+.sidebar span {
+  display: none;
+}
+
+.sidebar.active span {
+  display: inline;
+  text-align: left;
+}
+
+.sidebar.active .sidebar-footer a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Estilos para pantallas más pequeñas */
+@media (max-width: 767px) {
+  .sidebar {
+    max-width: 100vw;
+    min-width: 0;
+    height: auto;
+    position: static;
+  }
+
+  .sidebar.active {
+    max-width: 100vw;
+  }
+
+  .sidebar .nav-links,
+  .sidebar .sidebar-footer {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .sidebar .nav-links a,
+  .sidebar .sidebar-footer a {
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Alinea el texto al centro en pantallas pequeñas */
+  }
+
+  .sidebar .nav-links a img,
+  .sidebar .sidebar-footer a img {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar .sidebar-footer {
+    margin-top: auto; /* Coloca el footer al fondo */
+  }
+}

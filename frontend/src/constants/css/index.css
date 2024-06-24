@@ -1,0 +1,166 @@
+@import url("https://fonts.googleapis.com/css2?family=Pangolin&display=swap");
+
+body {
+  background-color: #f5f5f5;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.heroContainer {
+  padding: 0 10vw;
+  height: calc(100vh - 60px);
+  background-color: #fff1a6;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.heroContainer .intro {
+  flex: 0 0 40%; /* Ajusta la proporción a 40% */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heroContainer .hero {
+  flex: 0 0 60%; /* Ajusta la proporción a 60% */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroContainer .hero img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.heroContainer h1 {
+  font-size: 2.5rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: "Pangolin", cursive; /* Añade esto */
+}
+
+.heroContainer button {
+  margin: 20px 0;
+  padding: 10px 20px;
+  background-color: #124c5f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.heroContainer p {
+  font-size: 1.15rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.serviciosContainer {
+  padding: 100px 10vw 0 10vw;
+  background-color: #f5f5f5;
+}
+
+.serviciosContainer .titulo {
+  width: calc(1.5rem * 5);
+  height: 5px;
+  border-radius: 5px;
+  background-color: #124c5f;
+}
+
+.serviciosContainer h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.serviciosContainer .servicios {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.serviciosContainer .servicio {
+  min-width: 200px;
+  padding: 20px;
+  margin: 20px;
+  background: linear-gradient(to bottom, #f9fffe, #ffffff);
+  border-radius: 25px;
+  border: 1px solid #124c5f; /* Cambia esto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+
+.serviciosContainer .servicio img {
+  width: 100px;
+  height: auto;
+  padding: 20px;
+}
+
+.serviciosContainer .servicio h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.nosotrosContainer {
+  padding: 100px 10vw 100px 10vw;
+}
+
+.nosotrosContainer .titulo {
+  width: calc(1.5rem * 5);
+  height: 5px;
+  border-radius: 5px;
+  background-color: #124c5f;
+}
+
+.nosotrosContainer h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.nosotrosContainer .nosotros {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 767px) {
+  .heroContainer {
+    flex-direction: column;
+    padding: 0 5vw;
+  }
+
+  .heroContainer .intro, .heroContainer .hero {
+    flex: 1 1 auto; /* Ajusta la proporción para que ambos se adapten al tamaño de su contenido */
+    width: 100%;
+  }
+  .heroContainer .hero {
+    height: 25%;
+    margin-bottom: 10px;
+  }
+
+  .heroContainer h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .heroContainer button {
+    align-self: center; /* Centra el botón horizontalmente */
+  }
+
+}

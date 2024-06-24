@@ -1,0 +1,125 @@
+.serviceDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15vw;
+}
+
+.serviceDetailsContainer .principal {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.serviceDetailsContainer .principal .textContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+}
+
+.serviceDetailsContainer .principal img {
+  width: 40%;
+}
+
+.serviceDetailsContainer .principal .textContent .category {
+  font-size: 1.3em;
+  text-align: justify;
+  font-weight: 300;
+  font-style: italic;
+  margin: 0px;
+  opacity: 60%;
+}
+
+.serviceDetailsContainer .principal .textContent h2 {
+  font-size: 2em;
+  margin-top: 0px;
+  text-align: center;
+}
+
+.serviceDetailsContainer .principal .textContent .details {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  width: 100%;
+}
+.serviceDetailsContainer .principal .textContent .details p,
+.serviceDetailsContainer .principal .textContent .details li {
+  font-size: 1.15em;
+  text-align: justify;
+  font-weight: 300;
+  margin: 3px;
+}
+
+.serviceDetailsContainer .principal .textContent .details button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  width: fit-content;
+  font-size: 1.15em;
+  font-weight: bold;
+  color: black;
+  background-color: #fff1a6;
+  border: 1px solid #ffaa00;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.serviceDetailsContainer .reviewsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 40px 0px;
+}
+
+.serviceDetailsContainer .reviewsContainer h3 {
+  font-size: 1.7em;
+  margin-top: 0px;
+}
+
+.serviceDetailsContainer .reviewsContainer .reviews {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 20px;
+  width: 100%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.serviceDetailsContainer .reviewsContainer .reviews .review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #124c5f;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  width: 250px;
+  height: 170px; /* Fixed height */
+  box-sizing: border-box;
+  overflow: hidden; /* Ensure text overflow is hidden */
+}
+
+.serviceDetailsContainer .reviewsContainer .reviews .review .nombre {
+  font-size: 1.15em;
+  font-weight: bold;
+}
+
+.serviceDetailsContainer .reviewsContainer .reviews .review p {
+  font-size: 1em;
+  text-align: justify;
+  font-weight: 300;
+  margin: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Limits the number of lines */
+  -webkit-box-orient: vertical;
+}

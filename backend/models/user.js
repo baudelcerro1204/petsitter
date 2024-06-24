@@ -39,30 +39,18 @@ module.exports = (sequelize) => {
       defaultValue: 'usuario',
     },
   }, {
+    tableName: 'Users',
     timestamps: true,
   });
 
   User.associate = function(models) {
-    User.hasMany(models.Pet, {
-      foreignKey: 'userId',
-      as: 'pets',
-    });
-    User.hasMany(models.Service, {
-      foreignKey: 'providerId',
-      as: 'services',
-    });
-    User.hasMany(models.Comment, {
-      foreignKey: 'userId',
-      as: 'comments',
-    });
-    User.hasMany(models.Message, {
-      foreignKey: 'senderId',
-      as: 'sentMessages',
-    });
-    User.hasMany(models.Message, {
-      foreignKey: 'receiverId',
-      as: 'receivedMessages',
-    });
+    User.hasMany(models.Pet, { foreignKey: 'userId', as: 'pets' });
+    User.hasMany(models.Service, { foreignKey: 'providerId', as: 'services' });
+    User.hasMany(models.Comment, { foreignKey: 'userId', as: 'comments' });
+    User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
+    User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'receiverId' });
+    User.hasMany(models.ServiceRequest, { foreignKey: 'userId', as: 'serviceRequests' });
+    User.hasMany(models.Rating, { foreignKey: 'userId', as: 'ratings' });
   };
 
   return User;

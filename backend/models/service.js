@@ -28,9 +28,9 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    description: { // Nuevo campo de descripción
+    description: {
       type: DataTypes.TEXT,
-      allowNull: true, // Puedes cambiar a false si la descripción es obligatoria
+      allowNull: true,
     },
     status: {
       type: DataTypes.STRING,
@@ -45,9 +45,21 @@ module.exports = (sequelize) => {
       },
       onDelete: 'CASCADE',
     },
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   }, {
+    tableName: 'Services',
     timestamps: true,
   });
+
+  Service.associate = function(models) {
+    Service.hasMany(models.Message, { foreignKey: 'serviceId', as: 'messages' });
+    Service.hasMany(models.ServiceRequest, { foreignKey: 'serviceId', as: 'requests' });
+    Service.belongsToMany(models.Pet, { through: models.ServicePet, foreignKey: 'serviceId', as: 'pets' });
+    Service.hasMany(models.Rating, { foreignKey: 'serviceId', as: 'ratings' });
+  };
 
   return Service;
 };
