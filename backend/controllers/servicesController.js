@@ -1,23 +1,42 @@
+const { where } = require('sequelize');
 const { Service, ServicePet } = require('../models');
 
 const getAllServices = async (req, res) => {
   try {
     const services = await Service.findAll();
+    console.log(services);
     res.json(services);
   } catch (error) {
     res.status(500).send('Error al obtener servicios');
   }
 };
 
+const getServicesByType = async (req, res) => {
+  let { serviceType } = req.params;
+  if (serviceType === 'cuidados') {
+    serviceType = 'Cuidado';
+  } else if (serviceType === 'paseos') {
+    serviceType = 'Paseo';
+  } else if (serviceType === 'adiestramientos') {
+    serviceType = 'Adiestramiento';
+  }
+  console.log(serviceType);
+  try {
+    const services = await Service.findAll({
+      where: { category: serviceType },
+    });
+    res.json(services);
+  } catch (error) {
+    res.status(500).send('Error al obtener servicios');
+  }
+}
+
 const getServiceById = async (req, res) => {
   const { id } = req.params;
 
   try {
     const service = await Service.findByPk(id, {
-      include: [{
-        model: ServicePet,
-        as: 'servicePets',
-      }],
+      where: { id: id },
     });
     if (!service) {
       return res.status(404).send('Servicio no encontrado');
@@ -120,4 +139,4 @@ const getServicesByProvider = async (req, res) => {
   }
 };
 
-module.exports = { getAllServices, getServiceById, createService, updateService, deleteService, getServicesByProvider };
+module.exports = { getAllServices, getServicesByType ,getServiceById, createService, updateService, deleteService, getServicesByProvider };

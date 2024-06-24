@@ -82,3 +82,33 @@
     gap: 20px;
     margin: 20px 0;
 }
+
+@media (max-width: 767px) {
+    .footer .mainBox h4{
+        font-size: 1.3rem;
+        text-align: center;
+    }
+    .footer .secondaryBox{
+        flex: 1;
+        display: flex; /* Añade esto */
+        flex-direction: column; /* Añade esto */
+    }
+    .footer .secondaryBox .redes {
+        flex: 1;
+        padding:  30px 0;
+    }
+    .footer .secondaryBox .contactMethods{
+        flex: 1;
+        display: flex; /* Añade esto */
+        flex-direction: row; /* Añade esto */
+        justify-content: center;
+        align-items: center;
+    }
+    .footer .secondaryBox .contactMethods .contact {
+        flex: 1;
+        margin: 0px 0;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}

@@ -56,76 +56,87 @@ export function Login() {
   }, [errorMessage]);
 
   return (
-    <div className="authContainer">
-      <Link to="/" className="logo">
+    <>
+      <Link to="/" className="logoauth">
         <img src={Logo} alt="Logo" />
       </Link>
-      <form className="form" onSubmit={login}>
-        <h2 className="formTitle">Iniciar Sesion</h2>
-        <h4 className="formSubtitle">Inicia Sesion para acceder a tu cuenta de pet buddies</h4>
-        <div className="input-container">
-          <input
-            id="emailInput"
-            className="input"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <label htmlFor="emailInput" className={email ? "label-focus" : ""}>
-            Email
-          </label>
-        </div>
-        <div className="input-container">
-          <div style={{ position: "relative" }}>
+      <div className="authContainer">
+        <form className="form" onSubmit={login}>
+          <h2 className="formTitle">Iniciar Sesion</h2>
+          <h4 className="formSubtitle">
+            Inicia Sesion para acceder a tu cuenta de pet buddies
+          </h4>
+          <div className="input-container">
             <input
-              id="passwordInput"
+              id="emailInput"
               className="input"
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <label
-              htmlFor="passwordInput"
-              className={password ? "label-focus" : ""}
-            >
-              Password
+            <label htmlFor="emailInput" className={email ? "label-focus" : ""}>
+              Email
             </label>
-            <button
-              style={{
-                position: "absolute",
-                right: 0,
-                top: "50%",
-                transform: "translateY(-50%)",
-                background: "none",
-                border: "none",
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                setShowPassword(!showPassword);
-              }}
-            >
-              {showPassword ? <EyeOff /> : <Eye />}
-            </button>
           </div>
-        </div>
+          <div className="input-container">
+            <div style={{ position: "relative" }}>
+              <input
+                id="passwordInput"
+                className="input"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <label
+                htmlFor="passwordInput"
+                className={password ? "label-focus" : ""}
+              >
+                Password
+              </label>
+              <button
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowPassword(!showPassword);
+                }}
+              >
+                {showPassword ? <EyeOff style={{ color: 'black' }} /> : <Eye style={{ color: 'black' }} />}
+              </button>
+            </div>
+          </div>
 
-        <div className="afterInputs">
-          <div className="recordame">
-            <input type="checkbox" />
-            <label>Recordame</label>
+          <div className="afterInputs">
+            <div className="recordame">
+              <input type="checkbox" />
+              <label>Recordame</label>
+            </div>
+            <div className="olvideLaContraseña">
+              <Link className="link" to="/forgot-password">
+                Olvide la contraseña
+              </Link>
+            </div>
           </div>
-          <div className="olvideLaContraseña">
-            <Link className="link" to="/forgot-password">Olvide la contraseña</Link>
-          </div>
+          <button className="loginButton" type="submit">
+            Iniciar Sesion
+          </button>
+          <p className="crearCuenta">
+            ¿No tienes una cuenta?{" "}
+            <Link className="link" to="/register">
+              Registrate
+            </Link>
+          </p>
+        </form>
+        <div className="heroContainer">
+          <img className="hero" src={loginImage} alt="login" />
         </div>
-        <button className="loginButton" type="submit">Iniciar Sesion</button>
-        <p className="crearCuenta">
-          ¿No tienes una cuenta? <Link className="link" to="/register">Registrate</Link>
-        </p>
-      </form>
-      <div className="heroContainer">
-        <img className="hero" src={loginImage} alt="login" />
       </div>
-    </div>
+    </>
   );
 }

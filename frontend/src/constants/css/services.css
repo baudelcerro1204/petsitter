@@ -1,0 +1,133 @@
+.titulo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #124c5f;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.servicesContainer {
+  display: flex;
+}
+
+.servicesContainer .filtros {
+    width: 300px;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+.servicesContainer .filtro {
+    margin-bottom: 15px;
+}
+.servicesContainer .filtro label {
+    display: block;
+    margin-bottom: 5px;
+}
+.servicesContainer .filtro select,
+.servicesContainer .filtro input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.servicesContainer .filtro input[type="date"] {
+    width: calc(100% - 18px);
+}
+
+.servicesContainer .calificacion {
+    display: flex;
+    justify-content: space-between;
+}
+.servicesContainer .calificacion label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.servicesContainer .calificacion input[type="radio"] {
+    display: none;
+}
+.servicesContainer .calificacion label span {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin-right: 5px;
+    background-color: #f0f0f0;
+}
+.servicesContainer .calificacion input[type="radio"]:checked + span {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.servicesContainer .servicesList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px; /* Ajusta el espacio entre los elementos según tus necesidades */
+  width: calc(100% - 340px); /* Resta el ancho de los filtros */
+  margin: 0 auto;
+}
+
+.servicesContainer .servicesList .serviceItem {
+  background-color: #124c5f;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  width: 225px; /* Ancho del contenedor */
+  height: 300px; /* Altura del contenedor */
+  overflow: hidden; /* Evita desbordamiento de contenido */
+  border-radius: 33px; /* Bordes redondeados */
+  padding: 0%;
+  border: 0px;
+}
+
+.servicesContainer .servicesList .serviceItem .serviceImage {
+  width: 100%; /* Hace que la imagen ocupe todo el ancho disponible */
+  height: 150px; /* Altura fija para la imagen */
+  object-fit: cover; /* Asegura que la imagen cubra el espacio sin perder sus proporciones */
+}
+.servicesContainer .servicesList .serviceItem:nth-child(3n + 1) .serviceImage {
+  background-color: #fff1a6; /* Color original */
+}
+
+.servicesContainer .servicesList .serviceItem:nth-child(3n + 2) .serviceImage {
+  background-color: #eba8bf; /* Rosa */
+}
+
+.servicesContainer .servicesList .serviceItem:nth-child(3n + 3) .serviceImage {
+  background-color: #ddc7ed; /* Azul */
+}
+
+.servicesContainer .serviceItem .textContent {
+  height: 150px; /* Altura para el contenedor del texto */
+  padding: 10px; /* Espaciado interno */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.servicesContainer .serviceItem .textContent h3 {
+  font-size: 1.15em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.servicesContainer .serviceItem .textContent p {
+  margin-top: 0px;
+  font-size: 1em;
+  text-align: justify;
+  font-weight: 300;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

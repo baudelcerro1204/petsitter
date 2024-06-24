@@ -1,0 +1,81 @@
+.messageContainer {
+  padding: 0 10vw;
+  height: calc(100vh - 100px);
+  margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.messageContainer .form {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.messageContainer .form .formTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.messageContainer .form .input-container {
+  position: relative;
+  width: 100%;
+  margin: 10px 0;
+}
+.messageContainer .form .input {
+  padding: 10px;
+  width: calc(100% - 22px);
+  background-color: #f5f5f5;
+}
+
+.messageContainer .form .loginButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #fff1a6;
+  border: 1px solid #ffaa00;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.messageContainer .heroContainer {
+  flex: 1 1 60%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 0;
+  margin: 0px 20px;
+}
+.messageContainer .heroContainer .hero {
+  height: 70%;
+  padding: 30px;
+  background-color: #d9d9d9;
+  border-radius: 30px;
+}
+
+@media (max-width: 767px) {
+  .messageContainer {
+    flex-direction: column;
+    padding: 0 10vw;
+    width: calc(100% - 20vw) !important;
+    height: auto;
+  }
+
+  .messageContainer .form {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+
+  .messageContainer .heroContainer {
+    width: 50vw;
+    margin: 0 auto;
+  }
+}

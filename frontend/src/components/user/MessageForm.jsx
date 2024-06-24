@@ -1,6 +1,10 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../../constants/AppContext";
+import mensaje from "../../assets/mensaje.svg";
 import { useLocation, useNavigate } from "react-router-dom";
+import "../../constants/css/message.css";
+import { NavBar } from "../general/NavBar";
+import { Footer } from "../general/Footer";
 
 export function MessageForm() {
   const { user } = useContext(AppContext);
@@ -66,20 +70,30 @@ export function MessageForm() {
   }
 
   return (
-    <div className="messageFormContainer">
-      <h2>Enviar mensaje al proveedor</h2>
-      <form className="form" onSubmit={handleSendMessage}>
-        <div className="input-container">
-          <textarea
-            placeholder="Escribe tu mensaje"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          />
+    <>
+      <NavBar />
+      <div className="messageContainer">
+        <form className="form" onSubmit={handleSendMessage}>
+          <h2 className="formTitle">Enviar mensaje al proveedor</h2>
+          <div className="input-container">
+            <textarea
+              placeholder="Escribe tu mensaje"
+              value={content}
+              className="input"
+              onChange={(e) => setContent(e.target.value)}
+              required
+            />
+          </div>
+          <button className="loginButton" type="submit">
+            Enviar Mensaje
+          </button>
+          <button style={{marginTop: 10}} onClick={handleRequestService}>Solicitar Servicio</button>
+        </form>
+        <div className="heroContainer">
+          <img className="hero" src={mensaje} alt="register" />
         </div>
-        <button type="submit">Enviar Mensaje</button>
-      </form>
-      <button onClick={handleRequestService}>Solicitar Servicio</button>
-    </div>
+      </div>
+      <Footer />
+    </>
   );
 }
