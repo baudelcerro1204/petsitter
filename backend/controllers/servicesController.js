@@ -1,14 +1,19 @@
 const { where } = require('sequelize');
-const { Service, ServicePet } = require('../models');
+const { Service, ServicePet, User } = require('../models');
 const { getImageUrlByName } = require('../utils/firebaseUtils');
 const { v4: uuidv4 } = require('uuid');
 const { bucket } = require('../config/firebaseConfig');
 
 const getAllServices = async (req, res) => {
   try {
-    const services = await Service.findAll();
+    const services = await Service.findAll({
+      include: {
+        model: User,
+        as: 'provider',
+        attributes: ['firstName', 'lastName'],
+      },
+    });
 
-    // Obtener la URL completa de las imágenes
     for (let service of services) {
       if (service.imageUrl) {
         service.imageUrl = await getImageUrlByName(service.imageUrl);
@@ -35,6 +40,11 @@ const getServicesByType = async (req, res) => {
   try {
     const services = await Service.findAll({
       where: { category: serviceType },
+      include: {
+        model: User,
+        as: 'provider',
+        attributes: ['firstName', 'lastName'],
+      },
     });
     for (let service of services) {
       if (service.imageUrl) {
@@ -43,13 +53,20 @@ const getServicesByType = async (req, res) => {
     }
     res.json(services);
   } catch (error) {
+    console.error('Error al obtener servicios:', error); // Añadido para más detalles de depuración
     res.status(500).send('Error al obtener servicios');
   }
 }
 
 const getServiceById = async (req, res) => {
   try {
-    const service = await Service.findByPk(req.params.id);
+    const service = await Service.findByPk(req.params.id, {
+      include: {
+        model: User,
+        as: 'provider',
+        attributes: ['firstName', 'lastName'],
+      },
+    });
     if (!service) {
       return res.status(404).send('Servicio no encontrado');
     }

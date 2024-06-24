@@ -7,7 +7,6 @@ const PetRoutes = require('./routes/addPet');
 const userRoutes = require('./routes/user');
 const serviceRoutes = require('./routes/services');
 const commentRoutes = require('./routes/comment');
-const ratingRoutes = require('./routes/rating');
 const imageRoutes = require('./routes/image');
 const serviceRequestsRouter = require('./routes/serviceRequest');
 const messageRoutes = require('./routes/messages'); 
@@ -31,16 +30,13 @@ app.use('/', serviceRequestsRouter);
 
 app.use('/', messageRoutes); 
 
-app.use('/', commentRoutes);
+app.use('/comments', commentRoutes);
 
 app.use('/', userRoutes);
 
 app.use('/', PetRoutes);
 
 app.use('/', imageRoutes);
-
-app.use('/', ratingRoutes);
-
 
 models.sequelize.sync().then(() => {
   app.listen(port, () => {

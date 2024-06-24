@@ -24,6 +24,10 @@ export function Services() {
               Authorization: `Bearer ${user.token}`,
             },
           });
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Error al obtener los servicios: ${errorText}`);
+          }
           const data = await response.json();
           await fetchAverageRatings(data); // Obtener los promedios de calificaciones
           setServices(data);
@@ -40,7 +44,7 @@ export function Services() {
     const updatedServices = await Promise.all(
       services.map(async (service) => {
         try {
-          const response = await fetch(`http://localhost:3000/average-rating/${service.id}`);
+          const response = await fetch(`http://localhost:3000/comments/average-rating/${service.id}`);
           const data = await response.json();
           service.averageRating = data.averageRating;
         } catch (error) {
@@ -161,7 +165,7 @@ export function Services() {
               />
               <div className="textContent">
                 <div>
-                  <h3>{service.providerName}</h3>
+                  <h3>{`${service.provider.firstName} ${service.provider.lastName}`}</h3>
                   <p>Categoria: {service.category}</p>
                   <p>{service.description}</p>
                 </div>
@@ -192,6 +196,10 @@ export function GeneralServices() {
               Authorization: `Bearer ${user.token}`,
             },
           });
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Error al obtener los servicios: ${errorText}`);
+          }
           const data = await response.json();
           await fetchAverageRatings(data); // Obtener los promedios de calificaciones
           setServices(data);
@@ -334,7 +342,7 @@ export function GeneralServices() {
               />
               <div className="textContent">
                 <div>
-                  <h3>{service.providerName}</h3>
+                  <h3>{`${service.provider.firstName} ${service.provider.lastName}`}</h3>
                   <p>Categoria: {service.category}</p>
                   <p>{service.description}</p>
                 </div>

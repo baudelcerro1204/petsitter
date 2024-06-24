@@ -50,7 +50,6 @@ module.exports = (sequelize) => {
     User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
     User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'receiverId' });
     User.hasMany(models.ServiceRequest, { foreignKey: 'userId', as: 'serviceRequests' });
-    User.hasMany(models.Rating, { foreignKey: 'userId', as: 'ratings' });
   };
 
   return User;

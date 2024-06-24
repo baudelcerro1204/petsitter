@@ -14,7 +14,9 @@ export function ServiceDetails() {
   const [comments, setComments] = useState([]);
   const [canRate, setCanRate] = useState(false);
   const [rating, setRating] = useState(0);
+  const [newComment, setNewComment] = useState('');
   const [hasContracted, setHasContracted] = useState(false);
+  const [averageRating, setAverageRating] = useState(0);
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -24,7 +26,7 @@ export function ServiceDetails() {
       fetchComments(state.service.id);
       checkCanRate(state.service.id);
       checkHasContracted(state.service.id);
-      fetchUserRating(state.service.id);
+      fetchAverageRating(state.service.id);
     } else {
       fetchServiceById(id);
     }
@@ -32,7 +34,7 @@ export function ServiceDetails() {
 
   const fetchServiceById = async (serviceId) => {
     try {
-      const response = await fetch(`http://localhost:3000/service/${serviceId}`);
+      const response = await fetch(`http://localhost:3000/services/${serviceId}`);
       if (!response.ok) {
         throw new Error("Error al obtener el servicio");
       }
@@ -41,7 +43,7 @@ export function ServiceDetails() {
       fetchComments(serviceId);
       checkCanRate(serviceId);
       checkHasContracted(serviceId);
-      fetchUserRating(serviceId);
+      fetchAverageRating(serviceId);
     } catch (error) {
       console.error("Error al obtener el servicio:", error);
     }
@@ -67,7 +69,7 @@ export function ServiceDetails() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/can-rate/${serviceId}`, {
+      const response = await fetch(`http://localhost:3000/comments/can-rate/${serviceId}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -86,7 +88,7 @@ export function ServiceDetails() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/has-contracted/${serviceId}`, {
+      const response = await fetch(`http://localhost:3000/comments/has-contracted/${serviceId}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -98,40 +100,33 @@ export function ServiceDetails() {
     }
   };
 
-  const fetchUserRating = async (serviceId) => {
-    if (!user || !user.token) {
-      console.error("Usuario no autenticado o token no válido");
-      return;
-    }
-
+  const fetchAverageRating = async (serviceId) => {
     try {
-      const response = await fetch(`http://localhost:3000/user-rating/${serviceId}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await fetch(`http://localhost:3000/comments/average-rating/${serviceId}`);
       const data = await response.json();
-      setRating(data.rating || 0);
+      setAverageRating(data.averageRating ? parseFloat(data.averageRating) : 0);
     } catch (error) {
-      console.error("Error al obtener la calificación del usuario:", error);
+      console.error("Error al obtener el promedio de calificaciones:", error);
     }
   };
 
   const handleRatingChange = async (newRating) => {
     setRating(newRating);
     try {
-      const response = await fetch(`http://localhost:3000/rate/${service.id}`, {
+      const response = await fetch(`http://localhost:3000/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`,
         },
-        body: JSON.stringify({ rating: newRating }),
+        body: JSON.stringify({ rating: newRating, text: newComment, serviceId: service.id }),
       });
 
       if (!response.ok) {
         throw new Error("Error al calificar el servicio");
       }
+      fetchComments(service.id); // Refresh comments
+      fetchAverageRating(service.id); // Refresh average rating
     } catch (error) {
       console.error("Error al calificar el servicio:", error);
     }
@@ -169,6 +164,11 @@ export function ServiceDetails() {
         {canRate && (
           <div>
             <h3>Calificar este servicio</h3>
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Deja tu comentario aquí"
+            />
             <div>
               {[1, 2, 3, 4, 5].map((star) => (
                 <span
@@ -200,10 +200,11 @@ export function ServiceDetails() {
                   </p>
                   <p>{comment.text}</p>
                 </div>
-                <PuntajeHuesos puntaje={4} />
+                <PuntajeHuesos puntaje={Math.round(comment.rating)} />
               </div>
             ))}
           </div>
+          <h3>Calificación promedio: {averageRating.toFixed(2)} / 5</h3>
         </div>
       </div>
       <Footer />
