@@ -7,11 +7,21 @@ const { bucket } = require('../config/firebaseConfig');
 const getAllServices = async (req, res) => {
   try {
     const services = await Service.findAll({
-      include: {
-        model: User,
-        as: 'provider',
-        attributes: ['firstName', 'lastName'],
-      },
+      include: [
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['firstName', 'lastName'],
+        },
+        {
+          model: Pet,
+          as: 'pets',
+          attributes: ['petType'],
+          through: {
+            attributes: []
+          }
+        }
+      ],
     });
 
     for (let service of services) {

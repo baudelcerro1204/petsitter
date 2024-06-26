@@ -16,12 +16,9 @@ module.exports = (sequelize) => {
       values: ['Cuidado', 'Adiestramiento', 'Paseo'],
       allowNull: false,
     },
-    duration: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     frequency: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM,
+      values: ['unica', 'diaria', 'semanal', 'mensual'],
       allowNull: false,
     },
     cost: {
@@ -49,16 +46,29 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    startDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    endDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    zone: {
+      type: DataTypes.ENUM,
+      values: ['Palermo', 'Recoleta', 'Belgrano'],
+      allowNull: false,
+    },
   }, {
     tableName: 'Services',
     timestamps: true,
   });
 
   Service.associate = function(models) {
-    Service.hasMany(models.Message, { foreignKey: 'serviceId', as: 'messages' });
     Service.hasMany(models.ServiceRequest, { foreignKey: 'serviceId', as: 'requests' });
     Service.belongsToMany(models.Pet, { through: models.ServicePet, foreignKey: 'serviceId', as: 'pets' });
     Service.belongsTo(models.User, { foreignKey: 'providerId', as: 'provider' });
+    Service.hasMany(models.ServicePet, { foreignKey: 'serviceId', as: 'petTypes' }); // Nueva asociación
   };
 
   return Service;
