@@ -345,6 +345,7 @@ export function GeneralServices() {
                   <h3>{`${service.provider.firstName} ${service.provider.lastName}`}</h3>
                   <p>Categoria: {service.category}</p>
                   <p>{service.description}</p>
+                  <p>Mascotas: {service.petTypes.map(pet => pet.petType).join(", ")}</p>
                 </div>
                 <PuntajeHuesos puntaje={Math.round(service.averageRating)} />
               </div>
