@@ -20,7 +20,7 @@ exports.getUserInfo = async (req, res) => {
 exports.getUserServiceRequests = async (req, res) => {
   try {
     const serviceRequests = await ServiceRequest.findAll({
-      where: { userId: req.user.id },
+      where: { senderId: req.user.id },
       include: [
         { model: Service, as: 'service', attributes: ['name', 'providerId'] },
       ],
@@ -44,6 +44,30 @@ exports.getUserComments = async (req, res) => {
     res.json(comments);
   } catch (error) {
     console.error('Error al obtener los comentarios del usuario:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
+
+exports.getProviderComments = async (req, res) => {
+  try {
+    const comments = await Comment.findAll({
+      where: { providerId: req.user.id },
+      include: [
+        {
+          model: Service,
+          as: 'service',
+          attributes: ['name'],
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['firstName', 'lastName'],
+        },
+      ],
+    });
+    res.json(comments);
+  } catch (error) {
+    console.error('Error al obtener los comentarios del proveedor:', error);
     res.status(500).json({ message: 'Error interno del servidor' });
   }
 };

@@ -4,10 +4,10 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-router.post('/request', authMiddleware, serviceRequestController.createRequest);
-router.put('/request/:id/accept', authMiddleware, serviceRequestController.acceptRequest);
-router.put('/request/:id/deny', authMiddleware, serviceRequestController.denyRequest);
-router.get('/requests', authMiddleware, serviceRequestController.getUserRequests);
-router.get('/provider/requests', authMiddleware, serviceRequestController.getProviderRequests);
+router.post('/request', authMiddleware, serviceRequestController.createServiceRequest);
+router.put('/request/:id/accept', authMiddleware, serviceRequestController.acceptServiceRequest);
+router.put('/request/:id/deny', authMiddleware, serviceRequestController.denyServiceRequest);
+router.get('/requests', authMiddleware, serviceRequestController.getUserServiceRequests);
+router.get('/provider/requests', authMiddleware, serviceRequestController.getProviderServiceRequests);
 
 module.exports = router;

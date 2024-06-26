@@ -17,7 +17,6 @@ const User = require('./user')(sequelize, Sequelize);
 const Pet = require('./pet')(sequelize, Sequelize);
 const Service = require('./service')(sequelize, Sequelize);
 const Comment = require('./comment')(sequelize, Sequelize);
-const Message = require('./message')(sequelize, Sequelize);
 const ServiceRequest = require('./serviceRequest')(sequelize, Sequelize);
 const ServicePet = require('./servicePets')(sequelize, Sequelize);
 
@@ -26,7 +25,6 @@ const models = {
   Pet,
   Service,
   Comment,
-  Message,
   ServiceRequest,
   ServicePet,
 };
@@ -49,7 +47,6 @@ db.User = User;
 db.Pet = Pet;
 db.Service = Service;
 db.Comment = Comment;
-db.Message = Message;
 db.ServiceRequest = ServiceRequest;
 db.ServicePet = ServicePet;
 

@@ -12,7 +12,15 @@ module.exports = (sequelize) => {
       values: ['pendiente', 'aceptada', 'rechazada'],
       defaultValue: 'pendiente',
     },
-    userId: {
+    senderId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Users',
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
+    },
+    receiverId: {
       type: DataTypes.INTEGER,
       references: {
         model: 'Users',
@@ -28,13 +36,18 @@ module.exports = (sequelize) => {
       },
       onDelete: 'CASCADE',
     },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
   }, {
     tableName: 'ServiceRequests',
     timestamps: true,
   });
 
   ServiceRequest.associate = function(models) {
-    ServiceRequest.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+    ServiceRequest.belongsTo(models.User, { as: 'sender', foreignKey: 'senderId' });
+    ServiceRequest.belongsTo(models.User, { as: 'receiver', foreignKey: 'receiverId' });
     ServiceRequest.belongsTo(models.Service, { foreignKey: 'serviceId', as: 'service' });
   };
 

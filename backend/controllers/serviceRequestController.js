@@ -1,23 +1,40 @@
 const { ServiceRequest, User, Service } = require('../models');
 
-const createRequest = async (req, res) => {
-  const { serviceId } = req.body;
-  const userId = req.user.id;
+// Crear una solicitud de servicio con mensaje
+const createServiceRequest = async (req, res) => {
+  const { serviceId, content } = req.body;
+  const senderId = req.user.id;
 
-  if (!serviceId || !userId) {
-    return res.status(400).send('Datos incompletos');
+  if (!serviceId || !senderId || !content) {
+    console.error('Faltan campos obligatorios:', { serviceId, senderId, content });
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   try {
-    const request = await ServiceRequest.create({ serviceId, userId });
-    res.status(201).send(request);
+    const service = await Service.findByPk(serviceId);
+    if (!service) {
+      return res.status(404).json({ error: 'Servicio no encontrado' });
+    }
+
+    const receiverId = service.providerId;
+
+    const serviceRequest = await ServiceRequest.create({
+      serviceId,
+      senderId,
+      receiverId,
+      content,
+      status: 'pendiente'
+    });
+
+    res.status(201).json(serviceRequest);
   } catch (error) {
     console.error('Error al crear la solicitud de servicio:', error);
-    res.status(500).send('Error al crear la solicitud de servicio');
+    res.status(500).json({ error: 'Error al crear la solicitud de servicio' });
   }
 };
 
-const acceptRequest = async (req, res) => {
+// Aceptar una solicitud de servicio
+const acceptServiceRequest = async (req, res) => {
   const { id } = req.params;
   try {
     const request = await ServiceRequest.findByPk(id);
@@ -33,7 +50,8 @@ const acceptRequest = async (req, res) => {
   }
 };
 
-const denyRequest = async (req, res) => {
+// Rechazar una solicitud de servicio
+const denyServiceRequest = async (req, res) => {
   const { id } = req.params;
   try {
     const request = await ServiceRequest.findByPk(id);
@@ -49,11 +67,12 @@ const denyRequest = async (req, res) => {
   }
 };
 
-const getUserRequests = async (req, res) => {
+// Obtener solicitudes de servicio del usuario
+const getUserServiceRequests = async (req, res) => {
   const userId = req.user.id;
   try {
     const requests = await ServiceRequest.findAll({ 
-      where: { userId },
+      where: { senderId: userId },
       include: [
         { model: Service, as: 'service' }
       ]
@@ -65,7 +84,8 @@ const getUserRequests = async (req, res) => {
   }
 };
 
-const getProviderRequests = async (req, res) => {
+// Obtener solicitudes de servicio para el proveedor
+const getProviderServiceRequests = async (req, res) => {
   const userId = req.user.id;
   try {
     const services = await Service.findAll({ where: { providerId: userId } });
@@ -73,7 +93,8 @@ const getProviderRequests = async (req, res) => {
     const requests = await ServiceRequest.findAll({ 
       where: { serviceId: serviceIds },
       include: [
-        { model: User, as: 'user' },
+        { model: User, as: 'sender', attributes: ['firstName', 'lastName'] },
+        { model: User, as: 'receiver', attributes: ['firstName', 'lastName'] },
         { model: Service, as: 'service' }
       ]
     });
@@ -85,9 +106,9 @@ const getProviderRequests = async (req, res) => {
 };
 
 module.exports = {
-  createRequest,
-  acceptRequest,
-  denyRequest,
-  getUserRequests,
-  getProviderRequests
+  createServiceRequest,
+  acceptServiceRequest,
+  denyServiceRequest,
+  getUserServiceRequests,
+  getProviderServiceRequests
 };

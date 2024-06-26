@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
     userId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'User', // Cambiado a 'User' en lugar de 'Users'
+        model: 'User',
         key: 'id',
       },
       onDelete: 'CASCADE',
@@ -35,18 +35,30 @@ module.exports = (sequelize) => {
       },
       onDelete: 'CASCADE',
     },
+    providerId: { // Añadir providerId
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'User', // Asumiendo que el proveedor es un usuario
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
+    },
   }, {
     timestamps: true,
   });
 
   Comment.associate = function(models) {
-    Comment.belongsTo(models.User, { // Cambiado a belongsTo en lugar de hasMany
+    Comment.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
     });
     Comment.belongsTo(models.Service, {
       foreignKey: 'serviceId',
       as: 'service',
+    });
+    Comment.belongsTo(models.User, { // Añadir asociación a provider
+      foreignKey: 'providerId',
+      as: 'provider',
     });
   };
 

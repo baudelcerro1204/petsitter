@@ -216,7 +216,7 @@ export function GeneralServices() {
     const updatedServices = await Promise.all(
       services.map(async (service) => {
         try {
-          const response = await fetch(`http://localhost:3000/average-rating/${service.id}`);
+          const response = await fetch(`http://localhost:3000/comments/average-rating/${service.id}`);
           const data = await response.json();
           service.averageRating = data.averageRating;
         } catch (error) {

@@ -5,25 +5,16 @@ import { ProveedorSidebar } from "../general/SideBar";
 
 export function Consultations() {
   const { user } = useContext(AppContext);
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("Paseo");
-  const [duration, setDuration] = useState("");
-  const [frequency, setFrequency] = useState("");
-  const [cost, setCost] = useState("");
-  const [description, setDescription] = useState("");
-  const [message, setMessage] = useState("");
   const [services, setServices] = useState([]);
-  const [receivedMessages, setReceivedMessages] = useState([]);
   const [serviceRequests, setServiceRequests] = useState([]);
-  const [petTypes, setPetTypes] = useState([]);
 
   useEffect(() => {
     fetchServices();
-    fetchMessages();
     fetchServiceRequests();
   }, []);
 
   const fetchServices = async () => {
+    console.log(user);
     try {
       const response = await fetch("http://localhost:3000/provider/services", {
         headers: {
@@ -34,21 +25,6 @@ export function Consultations() {
       setServices(data);
     } catch (error) {
       console.error("Error al obtener los servicios:", error);
-    }
-  };
-
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/supplier/message", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const data = await response.json();
-      console.log("Received messages data:", data);
-      setReceivedMessages(data);
-    } catch (error) {
-      console.error("Error al obtener los mensajes:", error);
     }
   };
 
@@ -109,94 +85,6 @@ export function Consultations() {
     }
   };
 
-  const handlePetTypeChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setPetTypes([...petTypes, value]);
-    } else {
-      setPetTypes(petTypes.filter((type) => type !== value));
-    }
-  };
-
-  const createService = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:3000/services", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
-          name,
-          category,
-          duration,
-          frequency,
-          cost,
-          status: "habilitado",
-          description,
-          petTypes,
-        }),
-      });
-      if (response.ok) {
-        setMessage("Servicio creado exitosamente");
-        fetchServices();
-      } else {
-        const errorData = await response.text();
-        setMessage(`Error al crear el servicio: ${errorData}`);
-      }
-    } catch (error) {
-      console.error("Error al crear el servicio:", error);
-      setMessage(`Error al crear el servicio: ${error.message}`);
-    }
-  };
-
-  const updateServiceStatus = async (id, newStatus) => {
-    try {
-      const response = await fetch(`http://localhost:3000/services/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
-          status: newStatus,
-        }),
-      });
-      if (response.ok) {
-        setMessage("Estado del servicio actualizado");
-        fetchServices();
-      } else {
-        const errorData = await response.text();
-        setMessage(`Error al actualizar el estado: ${errorData}`);
-      }
-    } catch (error) {
-      console.error("Error al actualizar el estado del servicio:", error);
-      setMessage(`Error al actualizar el estado: ${error.message}`);
-    }
-  };
-
-  const deleteService = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:3000/services/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      if (response.ok) {
-        setMessage("Servicio eliminado exitosamente");
-        fetchServices();
-      } else {
-        const errorData = await response.text();
-        setMessage(`Error al eliminar el servicio: ${errorData}`);
-      }
-    } catch (error) {
-      console.error("Error al eliminar el servicio:", error);
-      setMessage(`Error al eliminar el servicio: ${error.message}`);
-    }
-  };
-
   if (user?.role !== "proveedor") {
     return <p>No tienes permiso para ver esta página.</p>;
   }
@@ -211,7 +99,8 @@ export function Consultations() {
           <thead>
             <tr>
               <th>Servicio</th>
-              <th>Usuario</th>
+              <th>Mensaje</th>
+              <th>Solicitante</th>
               <th>Estado</th>
               <th>Acciones</th>
             </tr>
@@ -219,9 +108,10 @@ export function Consultations() {
           <tbody>
             {serviceRequests.map((request) => (
               <tr key={request.id}>
-                <td>{request.service.name}</td>
+                <td>{request.service?.name ?? 'Servicio no disponible'}</td>
+                <td>"{request.content}"</td>
                 <td>
-                  {request.user.firstName} {request.user.lastName}
+                  {request.sender ? `${request.sender.firstName} ${request.sender.lastName}` : 'Solicitante no disponible'}
                 </td>
                 <td>{request.status}</td>
                 <td>
