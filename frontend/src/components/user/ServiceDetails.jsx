@@ -140,6 +140,8 @@ export function ServiceDetails() {
     return <p>Cargando...</p>;
   }
 
+  console.log(service);
+
   return (
     <>
       <NavBar />
@@ -161,7 +163,7 @@ export function ServiceDetails() {
           <img src={service.imageUrl || Foto} alt={service.name} className="serviceImage" />
         </div>
 
-        {canRate && (
+        {/* {canRate && (
           <div>
             <h3>Calificar este servicio</h3>
             <textarea
@@ -181,7 +183,7 @@ export function ServiceDetails() {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         <div className="reviewsContainer">
           <h3>Reseñas</h3>
@@ -200,11 +202,11 @@ export function ServiceDetails() {
                   </p>
                   <p>{comment.text}</p>
                 </div>
-                <PuntajeHuesos puntaje={Math.round(comment.rating)} />
+                <PuntajeHuesos puntaje={Math.round(comment.rating)} mascotas={service.petTypes.map(pet => pet.petType)}/>
               </div>
             ))}
           </div>
-          <h3>Calificación promedio: {averageRating.toFixed(2)} / 5</h3>
+          {/* <h3>Calificación promedio: {averageRating.toFixed(2)} / 5</h3> */}
         </div>
       </div>
       <Footer />

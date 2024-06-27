@@ -8,9 +8,11 @@ export function ServiceList() {
   const { user } = useContext(AppContext);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Paseo");
-  const [duration, setDuration] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [frequency, setFrequency] = useState("");
   const [cost, setCost] = useState("");
+  const [zone, setZone] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
   const [services, setServices] = useState([]);
@@ -21,7 +23,6 @@ export function ServiceList() {
 
   useEffect(() => {
     fetchServices();
-    fetchMessages();
     fetchServiceRequests();
   }, []);
 
@@ -39,20 +40,6 @@ export function ServiceList() {
     }
   };
 
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/supplier/message", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const data = await response.json();
-      console.log("Received messages data:", data);
-      setReceivedMessages(data);
-    } catch (error) {
-      console.error("Error al obtener los mensajes:", error);
-    }
-  };
 
   const fetchServiceRequests = async () => {
     try {
@@ -131,9 +118,11 @@ export function ServiceList() {
     const formData = new FormData();
     formData.append('name', name);
     formData.append('category', category);
-    formData.append('duration', duration);
+    formData.append('startDate', startDate);
+    formData.append('endDate', endDate);
     formData.append('frequency', frequency);
     formData.append('cost', cost);
+    formData.append('zone', zone);
     formData.append('status', 'habilitado');
     formData.append('description', description);
     formData.append('petTypes', JSON.stringify(petTypes));
@@ -190,10 +179,10 @@ export function ServiceList() {
   const deleteService = async (id) => {
     try {
       const response = await fetch(`http://localhost:3000/services/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
       });
       if (response.ok) {
         setMessage("Servicio eliminado exitosamente");
@@ -225,10 +214,24 @@ export function ServiceList() {
             <option value="Cuidado">Cuidado</option>
             <option value="Adiestramiento">Adiestramiento</option>
           </select>
-          <input type="number" value={duration} onChange={(e) => setDuration(e.target.value)} placeholder="Duración" required />
-          <input type="text" value={frequency} onChange={(e) => setFrequency(e.target.value)} placeholder="Frecuencia" required />
+          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} placeholder="Fecha de Inicio" required />
+          <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} placeholder="Fecha de Finalización (opcional)" />
+          <select value={frequency} onChange={(e) => setFrequency(e.target.value)} required>
+            <option value="">Seleccionar Frecuencia</option>
+            <option value="única">Única</option>
+            <option value="diaria">Diaria</option>
+            <option value="semanal">Semanal</option>
+            <option value="mensual">Mensual</option>
+          </select>
           <input type="number" value={cost} onChange={(e) => setCost(e.target.value)} placeholder="Costo" required />
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Descripción"></textarea>
+          <select value={zone} onChange={(e) => setZone(e.target.value)} required>
+            <option value="">Seleccionar Zona</option>
+            <option value="zona1">Zona 1</option>
+            <option value="zona2">Zona 2</option>
+            <option value="zona3">Zona 3</option>
+            {/* Añadir más opciones de barrios de CABA según sea necesario */}
+          </select>
           <div>
             <label>
               <input
@@ -248,6 +251,7 @@ export function ServiceList() {
               />
               Gato
             </label>
+            {/* Añadir más tipos de mascotas según sea necesario */}
           </div>
           <input type="file" onChange={handleImageChange} />
           <button type="submit">Crear Servicio</button>
@@ -258,9 +262,11 @@ export function ServiceList() {
             <tr>
               <th>Nombre</th>
               <th>Categoria</th>
-              <th>Duración (m)</th>
+              <th>Fecha de Inicio</th>
+              <th>Fecha de Finalización</th>
               <th>Frecuencia</th>
               <th>Costo</th>
+              <th>Zona</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -269,9 +275,11 @@ export function ServiceList() {
               <tr key={service.id}>
                 <td>{service.name}</td>
                 <td>{service.category}</td>
-                <td>{service.duration}</td>
+                <td>{service.startDate}</td>
+                <td>{service.endDate || "N/A"}</td>
                 <td>{service.frequency}</td>
                 <td>{service.cost}</td>
+                <td>{service.zone}</td>
                 <td>
                   <button
                     className={service.status === "habilitado" ? "enabled" : "disabled"}

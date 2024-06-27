@@ -47,9 +47,8 @@ module.exports = (sequelize) => {
     User.hasMany(models.Pet, { foreignKey: 'userId', as: 'pets' });
     User.hasMany(models.Service, { foreignKey: 'providerId', as: 'services' });
     User.hasMany(models.Comment, { foreignKey: 'userId', as: 'comments' });
-    User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'senderId' });
-    User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'receiverId' });
-    User.hasMany(models.ServiceRequest, { foreignKey: 'userId', as: 'serviceRequests' });
+    User.hasMany(models.ServiceRequest, { as: 'SentRequests', foreignKey: 'senderId' });
+    User.hasMany(models.ServiceRequest, { as: 'ReceivedRequests', foreignKey: 'receiverId' });
   };
 
   return User;

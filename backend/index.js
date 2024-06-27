@@ -9,7 +9,6 @@ const serviceRoutes = require('./routes/services');
 const commentRoutes = require('./routes/comment');
 const imageRoutes = require('./routes/image');
 const serviceRequestsRouter = require('./routes/serviceRequest');
-const messageRoutes = require('./routes/messages'); 
 
 const app = express();
 const port = 3000;
@@ -27,8 +26,6 @@ app.use('/', authRoutes);
 app.use('/', serviceRoutes);
 
 app.use('/', serviceRequestsRouter);
-
-app.use('/', messageRoutes); 
 
 app.use('/comments', commentRoutes);
 

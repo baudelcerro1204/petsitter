@@ -13,13 +13,11 @@ export function ServiceRegister() {
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
   const [services, setServices] = useState([]);
-  const [receivedMessages, setReceivedMessages] = useState([]);
   const [serviceRequests, setServiceRequests] = useState([]);
   const [petTypes, setPetTypes] = useState([]);
 
   useEffect(() => {
     fetchServices();
-    fetchMessages();
     fetchServiceRequests();
   }, []);
 
@@ -37,20 +35,6 @@ export function ServiceRegister() {
     }
   };
 
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/supplier/message", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const data = await response.json();
-      console.log("Received messages data:", data);
-      setReceivedMessages(data);
-    } catch (error) {
-      console.error("Error al obtener los mensajes:", error);
-    }
-  };
 
   const fetchServiceRequests = async () => {
     try {
@@ -337,19 +321,6 @@ export function ServiceRegister() {
               </button>
             </li>
           ))}
-        </ul>
-        <h3>Mensajes Recibidos</h3>
-        <ul className="messagesList">
-          {Array.isArray(receivedMessages) &&
-            receivedMessages.map((msg) => (
-              <li key={msg.id} className="messageItem">
-                <h4>
-                  De: {msg.sender?.firstName} {msg.sender?.lastName}
-                </h4>
-                <p>Servicio: {msg.service.name}</p>
-                <p>Mensaje: {msg.content}</p>
-              </li>
-            ))}
         </ul>
         <h3>Solicitudes de Servicio</h3>
         <ul className="requestsList">

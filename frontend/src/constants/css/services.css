@@ -83,6 +83,7 @@
   border-radius: 33px; /* Bordes redondeados */
   padding: 0%;
   border: 0px;
+  margin: 0 auto;
 }
 
 .servicesContainer .servicesList .serviceItem .serviceImage {
@@ -130,4 +131,103 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+@media (max-width: 1060px) {
+  .servicesContainer .servicesList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px; /* Ajusta el espacio entre los elementos según tus necesidades */
+    width: calc(100% - 340px); /* Resta el ancho de los filtros */
+    margin: 0 auto;
+  }
+
+  .servicesContainer .servicesList .serviceItem:nth-child(2n + 1) .serviceImage {
+    background-color: #fff1a6; /* Color original */
+  }
+  
+  .servicesContainer .servicesList .serviceItem:nth-child(2n + 2) .serviceImage {
+    background-color: #eba8bf; /* Rosa */
+  }
+
+
+}
+
+@media (max-width: 820px) {
+  .servicesContainer .servicesList {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px; /* Ajusta el espacio entre los elementos según tus necesidades */
+    width: calc(100% - 340px); /* Resta el ancho de los filtros */
+    margin: 0 auto;
+  }
+
+  .servicesContainer .servicesList .serviceItem:nth-child(n + 1) .serviceImage {
+    background-color: #fff1a6; /* Color original */
+  }
+  
+  .servicesContainer .servicesList .serviceItem:nth-child(3n + 2) .serviceImage {
+    background-color: #eba8bf; /* Rosa */
+  }
+  
+  .servicesContainer .servicesList .serviceItem:nth-child(3n + 3) .serviceImage {
+    background-color: #ddc7ed; /* Azul */
+  }
+
+
+
+}
+
+
+@media (max-width: 767px) {
+  .servicesContainer {
+    display: block;
+  }
+
+  .servicesContainer .filtros {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 40px); /* Resta el ancho de los filtros */
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+  .servicesContainer .servicesList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px; /* Ajusta el espacio entre los elementos según tus necesidades */
+    width: calc(100% - 40px); /* Resta el ancho de los filtros */
+    margin: 0 auto;
+  }
+
+  .servicesContainer .servicesList .serviceItem:nth-child(2n + 1) .serviceImage {
+    background-color: #fff1a6; /* Color original */
+  }
+  
+  .servicesContainer .servicesList .serviceItem:nth-child(2n + 2) .serviceImage {
+    background-color: #eba8bf; /* Rosa */
+  }
+}
+
+@media (max-width: 525px) {
+  .servicesContainer .servicesList {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px; /* Ajusta el espacio entre los elementos según tus necesidades */
+    width: calc(100% - 20px); /* Resta el ancho de los filtros */
+    margin: 0 auto;
+  }
+
+  .servicesContainer .servicesList .serviceItem:nth-child(n + 1) .serviceImage {
+    background-color: #fff1a6; /* Color original */
+  }
+  
+  .servicesContainer .servicesList .serviceItem:nth-child(3n + 2) .serviceImage {
+    background-color: #eba8bf; /* Rosa */
+  }
+  
+  .servicesContainer .servicesList .serviceItem:nth-child(3n + 3) .serviceImage {
+    background-color: #ddc7ed; /* Azul */
+  }
 }

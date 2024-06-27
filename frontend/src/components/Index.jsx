@@ -3,6 +3,9 @@ import { AppContext } from "../constants/AppContext";
 import { NavBar } from "./general/NavBar";
 import "../constants/css/index.css";
 import logoChico from "../assets/logoChico.svg";
+import cuidados from "../assets/cuidados.svg";
+import paseos from "../assets/paseos.svg";
+import adiestramientos from "../assets/adiestramientos.svg";
 import Background from "../assets/background.svg";
 import { Footer } from "./general/Footer";
 import { Link } from "react-router-dom";
@@ -34,25 +37,23 @@ export function Index() {
         </Link>
         <div className="titulo"></div>
         <div className="servicios">
-          <Link to={"/services/cuidados"} className="servicio">
+          <Link to={"/services/paseos"} className="servicio">
             <div className="simbolo">
-              <img src={logoChico} alt="" />
+              <img src={paseos} alt="" />
             </div>
-            <h3>Cuidados</h3>
+            <h3>Paseos</h3>
           </Link>
-
           <Link to={"/services/adiestramientos"} className="servicio">
             <div className="simbolo">
-              <img src={logoChico} alt="" />
+              <img src={adiestramientos} alt="" />
             </div>
             <h3>Adiestramientos</h3>
           </Link>
-
-          <Link to={"/services/paseos"} className="servicio">
+          <Link to={"/services/cuidados"} className="servicio">
             <div className="simbolo">
-              <img src={logoChico} alt="" />
+              <img src={cuidados} alt="" />
             </div>
-            <h3>Paseos</h3>
+            <h3>Cuidados</h3>
           </Link>
         </div>
       </div>

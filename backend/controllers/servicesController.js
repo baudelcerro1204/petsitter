@@ -14,13 +14,10 @@ const getAllServices = async (req, res) => {
           attributes: ['firstName', 'lastName'],
         },
         {
-          model: Pet,
-          as: 'pets',
+          model: ServicePet,
+          as: 'petTypes',
           attributes: ['petType'],
-          through: {
-            attributes: []
-          }
-        }
+        },
       ],
     });
 
@@ -50,32 +47,48 @@ const getServicesByType = async (req, res) => {
   try {
     const services = await Service.findAll({
       where: { category: serviceType },
-      include: {
-        model: User,
-        as: 'provider',
-        attributes: ['firstName', 'lastName'],
-      },
+      include: [
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['firstName', 'lastName'],
+        },
+        {
+          model: ServicePet,
+          as: 'petTypes',
+          attributes: ['petType'],
+        },
+      ],
     });
+
     for (let service of services) {
       if (service.imageUrl) {
         service.imageUrl = await getImageUrlByName(service.imageUrl);
       }
     }
+
     res.json(services);
   } catch (error) {
-    console.error('Error al obtener servicios:', error); // Añadido para más detalles de depuración
+    console.error('Error al obtener servicios:', error);
     res.status(500).send('Error al obtener servicios');
   }
-}
+};
 
 const getServiceById = async (req, res) => {
   try {
     const service = await Service.findByPk(req.params.id, {
-      include: {
-        model: User,
-        as: 'provider',
-        attributes: ['firstName', 'lastName'],
-      },
+      include: [
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['firstName', 'lastName'],
+        },
+        {
+          model: ServicePet,
+          as: 'petTypes',
+          attributes: ['petType'],
+        },
+      ],
     });
     if (!service) {
       return res.status(404).send('Servicio no encontrado');
@@ -93,7 +106,7 @@ const getServiceById = async (req, res) => {
 };
 
 const createService = async (req, res) => {
-  const { name, category, duration, frequency, cost, status, description, petTypes } = req.body;
+  const { name, category, startDate, endDate, frequency, cost, status, description, petTypes, zone } = req.body;
   const providerId = req.user.id;
   let imageName = null;
 
@@ -116,13 +129,15 @@ const createService = async (req, res) => {
     const newService = await Service.create({
       name,
       category,
-      duration,
+      startDate,
+      endDate,
       frequency,
       cost,
       status,
       providerId,
       description,
-      imageUrl: imageName
+      zone,
+      imageUrl: imageName,
     });
 
     console.log("Service created:", newService);
@@ -131,7 +146,7 @@ const createService = async (req, res) => {
       for (const petType of petTypes) {
         await ServicePet.create({
           serviceId: newService.id,
-          petType
+          petType,
         });
       }
     }
@@ -145,7 +160,7 @@ const createService = async (req, res) => {
 
 const updateService = async (req, res) => {
   const { id } = req.params;
-  const { name, category, duration, frequency, cost, status, description, petTypes } = req.body;
+  const { name, category, startDate, endDate, frequency, cost, status, description, petTypes, zone } = req.body;
   let imageUrl = null;
 
   try {
@@ -166,12 +181,14 @@ const updateService = async (req, res) => {
     await service.update({
       name,
       category,
-      duration,
+      startDate,
+      endDate,
       frequency,
       cost,
       status,
       description,
-      imageUrl: imageUrl || service.imageUrl  // Mantener la URL anterior si no hay nueva imagen
+      zone,
+      imageUrl: imageUrl || service.imageUrl, // Mantener la URL anterior si no hay nueva imagen
     });
 
     if (petTypes && petTypes.length > 0) {
@@ -179,7 +196,7 @@ const updateService = async (req, res) => {
       for (const petType of petTypes) {
         await ServicePet.create({
           serviceId: id,
-          petType
+          petType,
         });
       }
     }
@@ -208,11 +225,20 @@ const deleteService = async (req, res) => {
 const getServicesByProvider = async (req, res) => {
   const providerId = req.user.id;
   try {
-    const services = await Service.findAll({ where: { providerId } });
+    const services = await Service.findAll({
+      where: { providerId },
+      include: [
+        {
+          model: ServicePet,
+          as: 'petTypes',
+          attributes: ['petType'],
+        },
+      ],
+    });
     res.json(services);
   } catch (error) {
     res.status(500).send('Error al obtener los servicios del proveedor');
   }
 };
 
-module.exports = { getAllServices, getServicesByType ,getServiceById, createService, updateService, deleteService, getServicesByProvider };
+module.exports = { getAllServices, getServicesByType, getServiceById, createService, updateService, deleteService, getServicesByProvider };

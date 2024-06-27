@@ -123,3 +123,32 @@
   -webkit-line-clamp: 4; /* Limits the number of lines */
   -webkit-box-orient: vertical;
 }
+@media (max-width: 767px) {
+  .serviceDetailsContainer .principal {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100vh - 100px);
+  }
+  .serviceDetailsContainer .principal .textContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .serviceDetailsContainer .principal img {
+    margin-top: 20px;
+    width: calc(100% - 40px);
+  }
+  .serviceDetailsContainer .principal .textContent .details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+}

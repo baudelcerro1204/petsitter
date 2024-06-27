@@ -145,16 +145,7 @@ export function UserPanel() {
           </div>
           <div className="dashboard-section">
             <h3>Historial de Contrataciones</h3>
-            <ul>
-              {serviceRequests.map((request) => (
-                <li key={request.id}>
-                  <span>{request.service.name}</span>
-                  <span>
-                    {new Date(request.createdAt).toLocaleDateString()}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            
             <Link to="/user-panel/service-requests">
               Ver todas las contrataciones
             </Link>

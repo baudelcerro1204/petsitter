@@ -111,4 +111,10 @@
         align-items: center;
         text-align: center;
     }
+    .footer .mainBox .suscribe {
+        display: flex;
+    }
+    .footer .mainBox .suscribe .input{
+        width: 100%;
+    }
 }

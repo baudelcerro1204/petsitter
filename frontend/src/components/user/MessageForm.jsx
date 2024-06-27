@@ -13,34 +13,8 @@ export function MessageForm() {
   const [content, setContent] = useState("");
   const { service } = location.state;
 
-  const handleSendMessage = async (e) => {
+  const handleRequestService = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:3000/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
-          serviceId: service.id,
-          content,
-        }),
-      });
-      if (response.ok) {
-        alert("Mensaje enviado exitosamente");
-        navigate("/services");
-      } else {
-        const errorData = await response.json();
-        alert(`Error al enviar el mensaje: ${errorData.error}`);
-      }
-    } catch (error) {
-      console.error("Error al enviar el mensaje:", error);
-      alert(`Error al enviar el mensaje: ${error.message}`);
-    }
-  };
-
-  const handleRequestService = async () => {
     try {
       const response = await fetch("http://localhost:3000/request", {
         method: "POST",
@@ -50,6 +24,7 @@ export function MessageForm() {
         },
         body: JSON.stringify({
           serviceId: service.id,
+          content,
         }),
       });
       if (response.ok) {
@@ -73,7 +48,7 @@ export function MessageForm() {
     <>
       <NavBar />
       <div className="messageContainer">
-        <form className="form" onSubmit={handleSendMessage}>
+        <form className="form" onSubmit={handleRequestService}>
           <h2 className="formTitle">Enviar mensaje al proveedor</h2>
           <div className="input-container">
             <textarea
@@ -85,9 +60,8 @@ export function MessageForm() {
             />
           </div>
           <button className="loginButton" type="submit">
-            Enviar Mensaje
+            Enviar Mensaje y Solicitar Servicio
           </button>
-          <button style={{marginTop: 10}} onClick={handleRequestService}>Solicitar Servicio</button>
         </form>
         <div className="heroContainer">
           <img className="hero" src={mensaje} alt="register" />

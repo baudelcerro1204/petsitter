@@ -95,6 +95,7 @@ body {
   border: 1px solid #124c5f; /* Cambia esto */
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   text-decoration: none;
   color: black;
@@ -102,7 +103,7 @@ body {
 
 .serviciosContainer .servicio img {
   width: 100px;
-  height: auto;
+  height: 100%;
   padding: 20px;
 }
 

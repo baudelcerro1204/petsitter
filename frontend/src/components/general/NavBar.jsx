@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import Logo from "../../assets/logo.svg";
+import LogoChico from "../../assets/logoChico.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../../constants/AppContext";
 import "../../constants/css/navbar.css";
@@ -63,7 +64,8 @@ export function NavBar() {
       <div className="navbar">
         <div className="logo">
           <Link to="/">
-            <img src={Logo} alt="Logo" />
+            <img className="logoGrande" src={Logo} alt="Logo" />
+            <img className="logoChico" src={LogoChico} alt="LogoChico" />
           </Link>
         </div>
         <div className={`nav-links ${isOpen ? "open" : "closed"}`}>
