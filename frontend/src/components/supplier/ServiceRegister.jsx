@@ -7,91 +7,16 @@ export function ServiceRegister() {
   const { user } = useContext(AppContext);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Paseo");
-  const [duration, setDuration] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [frequency, setFrequency] = useState("");
   const [cost, setCost] = useState("");
+  const [zone, setZone] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
-  const [services, setServices] = useState([]);
-  const [serviceRequests, setServiceRequests] = useState([]);
   const [petTypes, setPetTypes] = useState([]);
+  const [image, setImage] = useState(null);
 
-  useEffect(() => {
-    fetchServices();
-    fetchServiceRequests();
-  }, []);
-
-  const fetchServices = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/provider/services", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const data = await response.json();
-      setServices(data);
-    } catch (error) {
-      console.error("Error al obtener los servicios:", error);
-    }
-  };
-
-
-  const fetchServiceRequests = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/provider/requests", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const data = await response.json();
-      setServiceRequests(data);
-    } catch (error) {
-      console.error("Error al obtener las solicitudes de servicio:", error);
-    }
-  };
-
-  const handleAcceptRequest = async (id) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/request/${id}/accept`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      if (response.ok) {
-        fetchServiceRequests();
-      } else {
-        const errorData = await response.json();
-        alert(`Error al aceptar la solicitud: ${errorData.error}`);
-      }
-    } catch (error) {
-      console.error("Error al aceptar la solicitud:", error);
-      alert(`Error al aceptar la solicitud: ${error.message}`);
-    }
-  };
-
-  const handleDenyRequest = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:3000/request/${id}/deny`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      if (response.ok) {
-        fetchServiceRequests();
-      } else {
-        const errorData = await response.json();
-        alert(`Error al rechazar la solicitud: ${errorData.error}`);
-      }
-    } catch (error) {
-      console.error("Error al rechazar la solicitud:", error);
-      alert(`Error al rechazar la solicitud: ${error.message}`);
-    }
-  };
 
   const handlePetTypeChange = (e) => {
     const { value, checked } = e.target;
@@ -102,29 +27,39 @@ export function ServiceRegister() {
     }
   };
 
+  const handleImageChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
+
   const createService = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("category", category);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("frequency", frequency);
+    formData.append("cost", cost);
+    formData.append("zone", zone);
+    formData.append("status", "habilitado");
+    formData.append("description", description);
+    formData.append("petTypes", JSON.stringify(petTypes));
+    if (image) {
+      formData.append("image", image);
+    }
+
     try {
       const response = await fetch("http://localhost:3000/services", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
         },
-        body: JSON.stringify({
-          name,
-          category,
-          duration,
-          frequency,
-          cost,
-          status: "habilitado",
-          description,
-          petTypes,
-        }),
+        body: formData,
       });
       if (response.ok) {
         setMessage("Servicio creado exitosamente");
-        fetchServices();
       } else {
         const errorData = await response.text();
         setMessage(`Error al crear el servicio: ${errorData}`);
@@ -135,51 +70,7 @@ export function ServiceRegister() {
     }
   };
 
-  const updateServiceStatus = async (id, newStatus) => {
-    try {
-      const response = await fetch(`http://localhost:3000/services/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
-          status: newStatus,
-        }),
-      });
-      if (response.ok) {
-        setMessage("Estado del servicio actualizado");
-        fetchServices();
-      } else {
-        const errorData = await response.text();
-        setMessage(`Error al actualizar el estado: ${errorData}`);
-      }
-    } catch (error) {
-      console.error("Error al actualizar el estado del servicio:", error);
-      setMessage(`Error al actualizar el estado: ${error.message}`);
-    }
-  };
 
-  const deleteService = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:3000/services/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      if (response.ok) {
-        setMessage("Servicio eliminado exitosamente");
-        fetchServices();
-      } else {
-        const errorData = await response.text();
-        setMessage(`Error al eliminar el servicio: ${errorData}`);
-      }
-    } catch (error) {
-      console.error("Error al eliminar el servicio:", error);
-      setMessage(`Error al eliminar el servicio: ${error.message}`);
-    }
-  };
 
   if (user?.role !== "proveedor") {
     return <p>No tienes permiso para ver esta página.</p>;
@@ -190,160 +81,95 @@ export function ServiceRegister() {
       <ProveedorSidebar />
       <div className="providerPanelContainer">
         <h2>Panel del Proveedor</h2>
-        <form className="form" onSubmit={createService}>
-          <div className="input-container">
-            <input
-              type="text"
-              placeholder="Nombre del Servicio"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+        <h3>Registrar nuevo servicio</h3>
+        <form onSubmit={createService}>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Nombre"
+            required
+          />
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="Paseo">Paseo</option>
+            <option value="Cuidado">Cuidado</option>
+            <option value="Adiestramiento">Adiestramiento</option>
+          </select>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            placeholder="Fecha de Inicio"
+            required
+          />
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            placeholder="Fecha de Finalización (opcional)"
+          />
+          <select
+            value={frequency}
+            onChange={(e) => setFrequency(e.target.value)}
+            required
+          >
+            <option value="">Seleccionar Frecuencia</option>
+            <option value="única">Única</option>
+            <option value="diaria">Diaria</option>
+            <option value="semanal">Semanal</option>
+            <option value="mensual">Mensual</option>
+          </select>
+          <input
+            type="number"
+            value={cost}
+            onChange={(e) => setCost(e.target.value)}
+            placeholder="Costo"
+            required
+          />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Descripción"
+          ></textarea>
+          <select
+            value={zone}
+            onChange={(e) => setZone(e.target.value)}
+            required
+          >
+            <option value="">Seleccionar Zona</option>
+            <option value="zona1">Zona 1</option>
+            <option value="zona2">Zona 2</option>
+            <option value="zona3">Zona 3</option>
+            {/* Añadir más opciones de barrios de CABA según sea necesario */}
+          </select>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                value="dog"
+                checked={petTypes.includes("dog")}
+                onChange={handlePetTypeChange}
+              />
+              Perro
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="cat"
+                checked={petTypes.includes("cat")}
+                onChange={handlePetTypeChange}
+              />
+              Gato
+            </label>
+            {/* Añadir más tipos de mascotas según sea necesario */}
           </div>
-          <div className="input-container">
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-            >
-              <option value="Paseo">Paseo</option>
-              <option value="Cuidado">Cuidado</option>
-              <option value="Adiestramiento">Adiestramiento</option>
-            </select>
-          </div>
-          <div className="input-container">
-            <input
-              type="number"
-              placeholder="Duración (minutos)"
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-container">
-            <input
-              type="text"
-              placeholder="Frecuencia"
-              value={frequency}
-              onChange={(e) => setFrequency(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-container">
-            <input
-              type="number"
-              placeholder="Costo ($)"
-              value={cost}
-              onChange={(e) => setCost(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-container">
-            <textarea
-              placeholder="Descripción"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-container">
-            <label>Tipos de mascotas:</label>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  value="Dog"
-                  onChange={handlePetTypeChange}
-                />
-                Perro
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="Cat"
-                  onChange={handlePetTypeChange}
-                />
-                Gato
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="Bird"
-                  onChange={handlePetTypeChange}
-                />
-                Pájaro
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="Fish"
-                  onChange={handlePetTypeChange}
-                />
-                Pez
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="Reptile"
-                  onChange={handlePetTypeChange}
-                />
-                Reptil
-              </label>
-            </div>
-          </div>
+          <input type="file" onChange={handleImageChange} />
           <button type="submit">Crear Servicio</button>
         </form>
-        {message && <p>{message}</p>}
-        <h3>Mis Servicios</h3>
-        <ul className="servicesList">
-          {services.map((service) => (
-            <li key={service.id} className="serviceItem">
-              <h3>{service.name}</h3>
-              <p>{service.description}</p>
-              <p>Categoria: {service.category}</p>
-              <p>Duración: {service.duration} minutos</p>
-              <p>Frecuencia: {service.frequency}</p>
-              <p>Costo: ${service.cost}</p>
-              <p>
-                Estado:
-                <select
-                  value={service.status}
-                  onChange={(e) =>
-                    updateServiceStatus(service.id, e.target.value)
-                  }
-                >
-                  <option value="habilitado">Habilitado</option>
-                  <option value="deshabilitado">Deshabilitado</option>
-                </select>
-              </p>
-              <button onClick={() => deleteService(service.id)}>
-                Eliminar
-              </button>
-            </li>
-          ))}
-        </ul>
-        <h3>Solicitudes de Servicio</h3>
-        <ul className="requestsList">
-          {serviceRequests.map((request) => (
-            <li key={request.id} className="requestItem">
-              <h4>Servicio: {request.service.name}</h4>
-              <p>
-                Usuario: {request.user.firstName} {request.user.lastName}
-              </p>
-              <p>Estado: {request.status}</p>
-              {request.status === "pendiente" && (
-                <div>
-                  <button onClick={() => handleAcceptRequest(request.id)}>
-                    Aceptar
-                  </button>
-                  <button onClick={() => handleDenyRequest(request.id)}>
-                    Rechazar
-                  </button>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
+        
       </div>
     </>
   );

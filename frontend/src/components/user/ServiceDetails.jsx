@@ -153,6 +153,10 @@ export function ServiceDetails() {
             <div className="details">
               <li>Duración: {service.duration} minutos</li>
               <li>Frecuencia: {service.frequency}</li>
+              <li>Ubicacion: {service.zone}</li>
+              <li>Inicio: {service.startDate}</li>
+              <li>Fin: {service.endDate}</li>
+
               <li className="cost">Costo: ${service.cost}</li>
               <p className="description">{service.description}</p>
               <button onClick={handleSendMessage}>
@@ -163,30 +167,9 @@ export function ServiceDetails() {
           <img src={service.imageUrl || Foto} alt={service.name} className="serviceImage" />
         </div>
 
-        {/* {canRate && (
-          <div>
-            <h3>Calificar este servicio</h3>
-            <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Deja tu comentario aquí"
-            />
-            <div>
-              {[1, 2, 3, 4, 5].map((star) => (
-                <span
-                  key={star}
-                  onClick={() => handleRatingChange(star)}
-                  style={{ cursor: 'pointer', color: star <= rating ? 'gold' : 'grey' }}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
-          </div>
-        )} */}
 
         <div className="reviewsContainer">
-          <h3>Reseñas</h3>
+          <h3>Reseñas ({service.averageRating} ⭐)</h3>
           <div className="reviews">
             {comments.map((comment) => (
               <div key={comment.id} className="review">

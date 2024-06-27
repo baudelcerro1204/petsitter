@@ -19,6 +19,9 @@ import { Consultations } from "./components/supplier/Consultations";
 import { Comments } from "./components/supplier/Comments";
 import { Help } from "./components/supplier/Help";
 import { UserPanel } from "./components/user/UserPanel";
+import { History } from "./components/user/History";
+import { Rate } from "./components/user/Rate";
+import { UserComments } from "./components/user/UserComments";
 import { MessageForm } from "./components/user/MessageForm";
 import { ServiceDetails } from "./components/user/ServiceDetails";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -66,6 +69,9 @@ createRoot(document.getElementById("root")).render(
           <Route path="/supplier-panel/comments" element={<Comments />} />
           <Route path="/supplier-panel/help" element={<Help />} />
           <Route path="/user-panel" element={<UserPanel />} />
+          <Route path="/user-panel/history" element={<History />} />
+          <Route path="/user-panel/comments" element={<UserComments />} />
+          <Route path="/user-panel/rate/:id" element={<Rate />} />
           <Route path="/service/:id" element={<ServiceDetails />} />
           <Route path="/messageform/:providerId" element={<MessageForm />} />
         </Route>

@@ -48,18 +48,9 @@ module.exports = (sequelize) => {
   });
 
   Comment.associate = function(models) {
-    Comment.belongsTo(models.User, {
-      foreignKey: 'userId',
-      as: 'user',
-    });
-    Comment.belongsTo(models.Service, {
-      foreignKey: 'serviceId',
-      as: 'service',
-    });
-    Comment.belongsTo(models.User, { // Añadir asociación a provider
-      foreignKey: 'providerId',
-      as: 'provider',
-    });
+    Comment.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+    Comment.belongsTo(models.Service, { foreignKey: 'serviceId', as: 'service' });
+    Comment.belongsTo(models.User, { foreignKey: 'providerId', as: 'provider' });
   };
 
   return Comment;

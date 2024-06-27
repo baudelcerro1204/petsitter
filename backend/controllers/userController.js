@@ -1,4 +1,5 @@
-const { User, ServiceRequest, Comment, Service } = require('../models');
+const { User, ServiceRequest, Comment, Service, Sequelize } = require('../models');
+const { Op } = Sequelize;
 
 // Obtener información del usuario
 exports.getUserInfo = async (req, res) => {
@@ -22,16 +23,57 @@ exports.getUserServiceRequests = async (req, res) => {
     const serviceRequests = await ServiceRequest.findAll({
       where: { senderId: req.user.id },
       include: [
-        { model: Service, as: 'service', attributes: ['name', 'providerId'] },
+        {
+          model: Service,
+          as: 'service',
+          attributes: ['id', 'name', 'providerId'],
+          include: [
+            {
+              model: User,
+              as: 'provider',
+              attributes: ['firstName', 'lastName'],
+            },
+            {
+              model: Comment,
+              as: 'comments',
+              attributes: ['rating', 'userId'],
+              required: false,
+            }
+          ],
+        },
       ],
     });
-    res.json(serviceRequests);
+
+    const transformedRequests = serviceRequests.map(request => {
+      const service = request.service;
+      const provider = service ? service.provider : null;
+      const userComment = service && service.comments.length > 0 
+        ? service.comments.find(comment => comment.userId === req.user.id) 
+        : null;
+      const userRating = userComment ? userComment.rating : null;
+
+      const averageRating = service && service.comments.length > 0 
+        ? (service.comments.reduce((sum, comment) => sum + comment.rating, 0) / service.comments.length).toFixed(2)
+        : null;
+
+      return {
+        id: request.id,
+        service: {
+          name: service ? service.name : "Servicio no disponible",
+          provider: provider ? `${provider.firstName} ${provider.lastName}` : "Proveedor no disponible",
+          averageRating: averageRating,
+          userRating: userRating
+        },
+        status: request.status,
+      };
+    });
+
+    res.json(transformedRequests);
   } catch (error) {
     console.error('Error al obtener las solicitudes de servicio del usuario:', error);
     res.status(500).json({ message: 'Error interno del servidor' });
   }
 };
-
 // Obtener comentarios del usuario
 exports.getUserComments = async (req, res) => {
   try {

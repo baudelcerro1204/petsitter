@@ -9,6 +9,7 @@ import consultIcon from "../../assets/consultIcon.svg";
 import commentsIcon from "../../assets/commentsIcon.svg";
 import helpIcon from "../../assets/helpIcon.svg";
 import logoutIcon from "../../assets/logoutIcon.svg";
+import historyIcon from "../../assets/history.svg";
 
 export const ProveedorSidebar = () => {
   const [isActive, setIsActive] = useState(false);
@@ -142,6 +143,22 @@ export const UserSidebar = () => {
               onClick={toggleSidebar}
             >
               <img src={dashboardIcon} alt="Dashboard" />
+              {showText && <span>Dashboard</span>}
+            </Link>
+            <Link
+              to="/user-panel/history"
+              className={location.pathname === "/user-panel/history" ? "active" : ""}
+              onClick={toggleSidebar}
+            >
+              <img src={historyIcon} alt="Dashboard" />
+              {showText && <span>Dashboard</span>}
+            </Link>
+            <Link
+              to="/user-panel/comments"
+              className={location.pathname === "/user-panel/comments" ? "active" : ""}
+              onClick={toggleSidebar}
+            >
+              <img src={commentsIcon} alt="Dashboard" />
               {showText && <span>Dashboard</span>}
             </Link>
             <Link

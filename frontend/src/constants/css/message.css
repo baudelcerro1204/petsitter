@@ -31,7 +31,9 @@
 .messageContainer .form .input {
   padding: 10px;
   width: calc(100% - 22px);
+  min-height: 100px;
   background-color: #f5f5f5;
+  resize: vertical; /* Cambia a 'resize: vertical;' si deseas permitir el redimensionamiento vertical */
 }
 
 .messageContainer .form .loginButton {

@@ -9,7 +9,7 @@ export function ProviderPanel() {
   const { user } = useContext(AppContext);
   const [services, setServices] = useState([]);
   const [serviceRequests, setServiceRequests] = useState([]);
-  const [comments, setComments] = useState([]);
+  const [receivedComments, setReceivedComments] = useState([]);
 
   useEffect(() => {
     fetchServices();
@@ -25,7 +25,7 @@ export function ProviderPanel() {
         },
       });
       const data = await response.json();
-      setServices(data);
+      setServices(data.slice(0, 3));
     } catch (error) {
       console.error("Error al obtener los servicios:", error);
     }
@@ -39,23 +39,9 @@ export function ProviderPanel() {
         },
       });
       const data = await response.json();
-      setServiceRequests(data);
+      setServiceRequests(data.slice(0, 3));
     } catch (error) {
       console.error("Error al obtener las solicitudes de servicio:", error);
-    }
-  };
-
-  const fetchComments = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/provider/comments", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const data = await response.json();
-      setComments(data);
-    } catch (error) {
-      console.error("Error al obtener los comentarios:", error);
     }
   };
 
@@ -92,6 +78,27 @@ export function ProviderPanel() {
       }
     } catch (error) {
       console.error("Error al rechazar la solicitud:", error);
+    }
+  };
+
+
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/provider/comments`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Error al obtener los comentarios");
+      }
+
+      const data = await response.json();
+      setReceivedComments(data.slice(0, 3));
+    } catch (error) {
+      console.error("Error al obtener los comentarios:", error);
     }
   };
 
@@ -149,12 +156,8 @@ export function ProviderPanel() {
                       {request.status}
                     </td>
                     <td>
-                      {request.status === "pendiente" && (
-                        <>
-                          <button style={{width:"100%"}} onClick={() => handleAcceptRequest(request.id)}>Aceptar</button>
-                          <button style={{marginTop:5, width:"100%"}} onClick={() => handleDenyRequest(request.id)}>Rechazar</button>
-                        </>
-                      )}
+                      <button style={{width:"100%"}}onClick={() => handleAcceptRequest(request.id)}>Aceptar</button>
+                      <button style={{marginTop:5, width:"100%"}} onClick={() => handleDenyRequest(request.id)}>Rechazar</button>
                     </td>
                   </tr>
                 ))}
@@ -164,40 +167,41 @@ export function ProviderPanel() {
               Ver todas las contrataciones
             </Link>
           </div>
-          <div className="comments-section">
-            <h3>Comentarios</h3>
+        </div>
+        <div style={{marginTop: 20}} className="dashboard-section">
+            <h3>Consultas</h3>
             <table className="dashboard-table">
-              <thead>
-                <tr>
-                  <th>Usuario</th>
-                  <th>Servicio</th>
-                  <th>Comentario</th>
-                  <th>Rating</th>
+            <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Servicio</th>
+              <th>Comentario</th>
+              <th>Rating</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.isArray(receivedComments) &&
+              receivedComments.map((comment) => (
+                <tr key={comment.id}>
+                  <td>
+                    {comment.user?.firstName} {comment.user?.lastName}
+                  </td>
+                  <td>{comment.service?.name}</td>
+                  <td>{comment.text}</td>
+                  <td>
+                    <PuntajeHuesos
+                      puntaje={comment.rating}
+                      mascotas={{ length: 2 }}
+                    />
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {comments.slice(0, 4).map((comment) => (
-                  <tr key={comment.id}>
-                    <td>
-                      {comment.user?.firstName} {comment.user?.lastName}
-                    </td>
-                    <td>{comment.service?.name}</td>
-                    <td>{comment.text}</td>
-                    <td>
-                      <PuntajeHuesos
-                        puntaje={comment.rating}
-                        mascotas={{ length: 2 }}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              ))}
+          </tbody>
             </table>
-            <Link to="/supplier-panel/comments">
-              Ver todos los comentarios
+            <Link to="/supplier-panel/consultations">
+              Ver todas las contrataciones
             </Link>
           </div>
-        </div>
       </div>
     </>
   );

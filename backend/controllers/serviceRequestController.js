@@ -1,4 +1,4 @@
-const { ServiceRequest, User, Service } = require('../models');
+const { ServiceRequest, User, Service, Comment } = require('../models');
 
 // Crear una solicitud de servicio con mensaje
 const createServiceRequest = async (req, res) => {
@@ -67,23 +67,6 @@ const denyServiceRequest = async (req, res) => {
   }
 };
 
-// Obtener solicitudes de servicio del usuario
-const getUserServiceRequests = async (req, res) => {
-  const userId = req.user.id;
-  try {
-    const requests = await ServiceRequest.findAll({ 
-      where: { senderId: userId },
-      include: [
-        { model: Service, as: 'service' }
-      ]
-    });
-    res.status(200).send(requests);
-  } catch (error) {
-    console.error('Error al obtener las solicitudes del usuario:', error);
-    res.status(500).send('Error al obtener las solicitudes del usuario');
-  }
-};
-
 // Obtener solicitudes de servicio para el proveedor
 const getProviderServiceRequests = async (req, res) => {
   const userId = req.user.id;
@@ -109,6 +92,5 @@ module.exports = {
   createServiceRequest,
   acceptServiceRequest,
   denyServiceRequest,
-  getUserServiceRequests,
   getProviderServiceRequests
 };
